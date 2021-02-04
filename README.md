@@ -11,10 +11,11 @@ quotecodequote is a programming language making psuedocode functional
 
 Operators
 ```
-js        qcq
-x = 5     x is 5
-
-3+5       3+5
+js          qcq
+------------------
+x = 5       x is 5
+x + 5       x + 5
+x - 5       x - 5       
 ```
 
 Hello World

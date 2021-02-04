@@ -9,6 +9,14 @@ quotecodequote is a programming language making psuedocode functional
 
 ## Examples
 
+Operators
+```
+js        qcq
+x = 5     x is 5
+
+3+5       3+5
+```
+
 Hello World
 ```
 output "hello world"

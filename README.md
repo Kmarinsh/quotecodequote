@@ -6,7 +6,7 @@ quotecodequote is a programming language making psuedocode functional
 ## Introduction
 
 ## Features
-Markup : * Dynamically typed vairables
+* Dynamically typed vairables
 
 ## Examples
 

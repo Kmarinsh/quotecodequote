@@ -13,68 +13,71 @@ quotecodequote is a programming language making psuedocode functional
 * Easy to read and understand
 
 ## Examples
-
+```
+Javascript                                  quotecodequote
+```
 Operators
 ```
-js          qcq
-------------------
-x = 5       x is 5
-x + 5       x + 5
-x - 5       x - 5 
-x * 5       x * 5
-x / 5       x / 5
-x ** 5      x ^ 5
-x % 7       x % 7
+x = 5                                       x is 5
+x + 5                                       x + 5
+x - 5                                       x - 5 
+x * 5                                       x * 5
+x / 5                                       x / 5
+x ** 5                                      x ^ 5
+x % 7                                       x % 7
 ```
 
 Comparators
 ```
-js          qcq
-------------------
-x && y      x and y
-x || y      x or y
-x < y       x < y
-x > y       x > y
-x <= y      x <= y
-x >= y      x >= y
-x === y     x == y
-x !== y     x != y
+x && y                                      x and y
+x || y                                      x or y
+x < y                                       x < y
+x > y                                       x > y
+x <= y                                      x <= y
+x >= y                                      x >= y
+x === y                                     x == y
+x !== y                                     x != y
+```
+
+Print
+```
+console.log(x)                              output x
 ```
 
 Conditionals
 ```
-if x == 0
-    output “False”
-else if x == 1
-    output “True”
-else
-    output "Maybe?"
+if (x == 0) {                               if x == 0
+    console.log("False")                        output “False”
+} else if (x == 1){                         else if x == 1
+    console.log("True")                         output “True”
+} else {                                    else
+    console.log("Maybe?")                        output "Maybe?"
+}
 ```
 
 For Loop
 ```
-loop i from 0 to 10 by 1
-     output i
-end
+for (let i = 0; i < 10; i++){               loop i from 0 to 10 by 1
+    console.log(i)                              output i
+}                                           end
 ```
 
 While Loop
 ```
-loop until i != 10
-     output 5 * i
-end
+while (i != 10) {                           loop until i != 10
+    console.log(5 * i)                          output 5 * i
+}                                           end
 ```
 
 Hello World
 ```
-output "hello world"
+console.log("hello world")                  output "hello world"
 ```
 
 Functions
 ```
-function average
-      in: x, y
-      sum is x  * y
-      out: sum / 2
+function average(x, y){                     function average in: x, y
+    let sum = x * y                             sum is x  * y
+    return sum / 2                              out: sum / 2
+}                                           
 ```
-

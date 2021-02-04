@@ -36,10 +36,37 @@ x === y     x == y
 x !== y     x != y
 ```
 
+Conditionals
+```
+if x == 0
+    output “False”
+else if x == 1
+    output “True”
+else
+    output "Maybe?"
+
+```
+
+For Loop
+```
+loop i from 0 to 10 by 1
+     output i
+end
+
+```
+
+While Loop
+```
+loop until i != 10
+     output 5 * i
+end
+```
+
 Hello World
 ```
 output "hello world"
 ```
+
 Functions
 ```
 function clear monitor
@@ -47,24 +74,5 @@ function clear monitor
       direct the operating system to clear the monitor
       out: nothing
 
-```
-If Statement
-```
-if x is true
-    output “True”
-else
-    output “False”
-
-```
-For Loop
-```
-loop i from 0 to 10 by 1
-     output "hello world"
-end
-
-```
-While Loop
-```
-loop until i != 10
 ```
 

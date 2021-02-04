@@ -7,6 +7,10 @@ quotecodequote is a programming language making psuedocode functional
 
 ## Features
 * Dynamically typed vairables
+* No semicolon at end of line
+* .qcq file extension
+* straightforward variable assignment
+* easy to read and understand
 
 ## Examples
 

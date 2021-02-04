@@ -6,6 +6,7 @@ quotecodequote is a programming language making psuedocode functional
 ## Introduction
 
 ## Features
+* Dynamically typed vairables
 
 ## Examples
 
@@ -44,7 +45,6 @@ else if x == 1
     output “True”
 else
     output "Maybe?"
-
 ```
 
 For Loop
@@ -52,7 +52,6 @@ For Loop
 loop i from 0 to 10 by 1
      output i
 end
-
 ```
 
 While Loop
@@ -69,10 +68,9 @@ output "hello world"
 
 Functions
 ```
-function clear monitor
-      in: nothing
-      direct the operating system to clear the monitor
-      out: nothing
-
+function average
+      in: x, y
+      sum is x  * y
+      out: sum / 2
 ```
 

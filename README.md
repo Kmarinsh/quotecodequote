@@ -33,7 +33,7 @@ x > y       x > y
 x <= y      x <= y
 x >= y      x >= y
 x === y     x == y
-x !== y     N0T (x == y)
+x !== y     x != y)
 ```
 
 Hello World

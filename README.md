@@ -38,6 +38,6 @@ end
 ```
 While Loop
 ```
-Loop until i != 10
+loop until i != 10
 ```
 

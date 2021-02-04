@@ -9,3 +9,20 @@ quotecodequote is a programming language making psuedocode functional
 
 ## Examples
 
+Hello World
+```
+
+```
+Functions
+```
+
+```
+If Statement
+```
+
+```
+For Loop
+```
+
+```
+

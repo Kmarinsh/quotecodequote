@@ -27,8 +27,6 @@ For Loop
 ```
 While Loop
 ```
-i is 10
-loop until i=0
-  i--
+
 ```
 

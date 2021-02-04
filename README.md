@@ -51,7 +51,7 @@ if (x == 0) {                               if x == 0
 } else if (x == 1){                         else if x == 1
     console.log("True")                         output “True”
 } else {                                    else
-    console.log("Maybe?")                        output "Maybe?"
+    console.log("Maybe?")                       output "Maybe?"
 }
 ```
 
@@ -77,7 +77,7 @@ console.log("hello world")                  output "hello world"
 Functions
 ```
 function average(x, y){                     function average in: x, y
-    let sum = x * y                             sum is x  * y
+    let sum = x * y                             sum is x + y
     return sum / 2                              out: sum / 2
 }                                           
 ```

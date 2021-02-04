@@ -4,6 +4,7 @@
 
 quotecodequote is a programming language making psuedocode functional
 ## Introduction
+Have you ever found yourself skimming the Wikipedia article for Bogosort and had trouble implenenting the pseudocode in your language of choice? Look no further, as quotecodequote is the language for you! Verbose in nature, quotecodequote is meant to be easily readable at first glance and accessible to all.
 
 ## Features
 * Dynamically typed vairables

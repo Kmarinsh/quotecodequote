@@ -25,4 +25,8 @@ For Loop
 ```
 
 ```
+While Loop
+```
+
+```
 

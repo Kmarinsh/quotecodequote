@@ -82,7 +82,7 @@ function average(x, y){                                     function average in:
     return sum / 2                                              out: sum / 2
 }  
 
-function twoSum(nums, target) {                             function twoSum in:  nums, target
+function twoSum(nums, target) {                             function twoSum in: nums, target
     if (nums.length === 2) {                                    if length(nums) == 2
         return [0, 1]                                               out: [0,1]
     }                                                           ans is list
@@ -100,7 +100,7 @@ function twoSum(nums, target) {                             function twoSum in: 
     return ans
 }
 
-function largestNum(x , y, z){                              function largestNum in: x, y, z
+function largestNum(x, y, z){                               function largestNum in: x, y, z
     if (x >= y && x >= z) {                                     if x >= y and x >= z
         return x                                                    out: x
     } else if (y >= x && y >= z) {                              else if y >= x and y >= z
@@ -109,7 +109,7 @@ function largestNum(x , y, z){                              function largestNum 
         return x                                                    out: x
     }
 
-function factorial(x){                                 function factorial in: integer x
+function factorial(x){                                      function factorial in: x
     if (x == 0 || x == 1) {                                     if x == 0 or x == 1
         return x                                                    out: x
     } else {                                                    else

@@ -1,0 +1,30 @@
+{
+  "name": "quotecodequote",
+  "version": "1.0.0",
+  "description": "Compilers Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --collect-coverage",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kmarinsh/quotecodequote.git"
+  },
+  "author": "Kevin Marinshaw, David Donovan, Zan Dickens, Joey Ortiz, Aidan O'Donnell, Griffith Prendiville",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kmarinsh/quotecodequote/issues"
+  },
+  "homepage": "https://github.com/Kmarinsh/quotecodequote#readme",
+  "dependencies": {
+    "jest": "^25.1.0",
+    "ohm-js": "^0.14.0",
+    "prettier": "^2.0.5",
+    "pretty-js": "^0.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0"
+  }
+}

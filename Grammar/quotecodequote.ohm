@@ -2,13 +2,26 @@ codequotecode {
   Program   = Statement+
   
   Statement =
-            | id "is" Relop              --vardec
-            | Var is Relop                    --assign
-            | output Relop                       --print
-            | loop until Conditional  (Statement )*   "end"         --while
-            | loop id from number to number by number  (Statement )*  "end"           --for
-            | function id "in:" Var ("," Var)* (Statement)* "out:" (Relop)   --funcdef 
-            | if Conditional (Statement)* ( else if Conditional (Statement)* )* ( else Conditional (Statement)* )*    --if
+            | id "is" Relop (newline)*           --vardec
+            | Var is Relop (newline)*                   --assign
+            | output Relop (newline)*                    --print
+            
+            | loop until Conditional 
+            newline indent  (Statement)* 
+            "end"    --while
+            
+            | loop id from number to number by number 
+            newline indent  (Statement)* "end"          --for
+            
+            | function id "in:" Var ("," Var)* 
+            newline indent (Statement )* 
+            "out:" (Relop)  --funcdef 
+            
+            | if Conditional 
+            newline indent (Statement)* 
+            dedent ( else if Conditional newline indent (Statement)* dedent)*
+            ( else newline indent (Statement)*)*   --if
+            
             
   Conditional= "(" Conditional ")" ( "and" | "or" | "<=" | ">=" | "<" | ">" | "==" | "!=") Exp   --expansion
             | Exp ("and" | "or" | "<=" | ">=" | "<" | ">" | "==" | "!=") Exp                                   --boolean
@@ -22,9 +35,9 @@ codequotecode {
   Term      = Term ("*"| "/"|"^"|"%") Factor          --binary
             | Factor
             
-  Factor    = Var
+  Factor    = Var 
             | number
-            | "\""alnum* "\""                 --string
+            | "\"" (~"\\" ~"\"" ~"\n" any | escape)* "\""                --string
             | "(" Exp ")"                     --parens
             
   Var       = id
@@ -42,6 +55,12 @@ codequotecode {
   output     = "output" ~alnum
   keyword   = is | output | loop | until | from | to | by | function | is
   id        = ~keyword letter alnum*
-
-  space    += "//" (~"\n" any)* ("\n" | end)  --comment
+  
+  newline= "\n"+
+    indent      = "\t"
+  dedent      = "⇦"
+  space       := " "  | comment
+  comment     = "!!!" (~"\n" any)* "\n"                            -- singleLine
+              | "!?" (~"?!" any)* "?!"                             -- multiLine
+  escape      = "\\" ("\\" | "\"")                           -- simple
 }

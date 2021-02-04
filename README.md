@@ -15,7 +15,25 @@ js          qcq
 ------------------
 x = 5       x is 5
 x + 5       x + 5
-x - 5       x - 5       
+x - 5       x - 5 
+x * 5       x * 5
+x / 5       x / 5
+x ** 5      x ^ 5
+x % 7       x % 7
+```
+
+Comparators
+```
+js          qcq
+------------------
+x && y      x and y
+x || y      x or y
+x < y       x < y
+x > y       x > y
+x <= y      x <= y
+x >= y      x >= y
+x === y     x == y
+x !== y     N0T (x == y)
 ```
 
 Hello World

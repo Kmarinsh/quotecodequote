@@ -1,0 +1,47 @@
+codequotecode {
+  Program   = Statement+
+  
+  Statement =
+            | id "is" Relop              --vardec
+            | Var is Relop                    --assign
+            | output Relop                       --print
+            | loop until Conditional  (Statement )*   "end"         --while
+            | loop id from number to number by number  (Statement )*  "end"           --for
+            | function id "in:" Var ("," Var)* (Statement)* "out:" (Relop)   --funcdef 
+            | if Conditional (Statement)* ( else if Conditional (Statement)* )* ( else Conditional (Statement)* )*    --if
+            
+  Conditional= "(" Conditional ")" ( "and" | "or" | "<=" | ">=" | "<" | ">" | "==" | "!=") Exp   --expansion
+            | Exp ("and" | "or" | "<=" | ">=" | "<" | ">" | "==" | "!=") Exp                                   --boolean
+            
+  Relop = Relop ("and" | "or" | "<=" | ">=" | "<" | ">" | "==" | "!=")  Exp        --binary
+            | Exp                                                 --unary
+            
+  Exp       = Exp ("+" | "-") Term            --binary
+            | Term
+            
+  Term      = Term ("*"| "/"|"^"|"%") Factor          --binary
+            | Factor
+            
+  Factor    = Var
+            | number
+            | "\""alnum* "\""                 --string
+            | "(" Exp ")"                     --parens
+            
+  Var       = id
+  
+  number       = digit+ ("." digit+)?
+  loop="loop" ~alnum
+  until="until" ~alnum
+  from="from" ~alnum
+  to="to" ~alnum
+  by="by" ~alnum
+  function="function" ~alnum
+  if="if" ~alnum 
+  else="else" ~alnum
+  is       = "is" ~alnum
+  output     = "output" ~alnum
+  keyword   = is | output | loop | until | from | to | by | function | is
+  id        = ~keyword letter alnum*
+
+  space    += "//" (~"\n" any)* ("\n" | end)  --comment
+}

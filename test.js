@@ -2,7 +2,7 @@ let fs = require("fs");
 let ohm = require("ohm-js");
 let assert = require("assert");
 
-let contents = fs.readFileSync(__dirname + "/../codequotecode.ohm");
+let contents = fs.readFileSync(__dirname + "/Grammar/quotecodequote.ohm");
 let codequotecode = ohm.grammar(contents);
 
 describe("assignment", () => {

@@ -19,7 +19,7 @@ Javascript                                  quotecodequote
 ```
 Operators
 ```
-x = 5                                                       x is 5
+x = 5                                                       x is 5 (for assignment)
 x + 5                                                       x + 5
 x - 5                                                       x - 5 
 x * 5                                                       x * 5
@@ -92,10 +92,10 @@ function twoSum(nums, target) {                             function twoSum in: 
         let complement = target - nums[i]                           find is hashtable[complement]
         let find = hashTable[complement]                            if find != undefined
         if (find !== undefined) {                                       ans is list[find,i]
-            ans = [find, i]                                             end
+            ans = [find, i]                                             break
             break                                                   hashtable[nums[i]] is i
-        }                                                       out: ans
-        hashTable[nums[i]] = i
+        }                                                        end
+        hashTable[nums[i]] = i                                   out: ans
     }
     return ans
 }

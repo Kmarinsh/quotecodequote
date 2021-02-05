@@ -38,11 +38,15 @@ codequotecode {
   Factor    = Var 
             | number
             | "\"" (~"\\" ~"\"" ~"\n" any | escape)* "\""                --string
+            | list "[" (Factor ("," Factor)*)? "]"              --list
+            | map "[" ( "[" Factor "]" (","  "[" Factor "]" )* )? "]"  --map
             | "(" Exp ")"                     --parens
             
   Var       = id
   
   number       = digit+ ("." digit+)?
+  list = "list" ~alnum
+  map="map" ~alnum
   loop="loop" ~alnum
   until="until" ~alnum
   from="from" ~alnum
@@ -53,7 +57,7 @@ codequotecode {
   else="else" ~alnum
   is       = "is" ~alnum
   output     = "output" ~alnum
-  keyword   = is | output | loop | until | from | to | by | function | is
+  keyword   = is | output | loop | until | from | to | by | function | is | map | list
   id        = ~keyword letter alnum*
   
   newline= "\n"+

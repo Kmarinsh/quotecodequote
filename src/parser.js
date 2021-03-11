@@ -185,8 +185,8 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
     return new ast.FuncCall(name.ast(), param1.ast(), paramR.ast());
   },
   Return(_out, statement, _newline) {
-    return new ast.Return(statement.ast())
-  }
+    return new ast.Return(statement.ast());
+  },
   Exp_binary(left, op, right) {
     return new ast.BinaryExp(op.sourceString, left.ast(), right.ast());
   },

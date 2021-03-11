@@ -1,0 +1,82 @@
+codequotecode {
+  Program   = Block+
+  
+  Block = 
+  			Function
+            | Loop
+            | If
+            | Statement
+            
+   Function = function Var "in:" Var ("," Var)* 
+            newline indent (Block )* dedent  --func
+   
+   Loop = 
+   			| loop until Relop                 
+            	newline indent (Block )*
+             dedent "end" newline  --while
+            
+            | loop id from number to number by number 
+           		 newline indent  (Block )* 
+              dedent "end" newline  --for
+   
+   If =  | if Relop 
+            newline indent (Block )* dedent
+            (else if Relop 
+            	newline indent (Block )*
+             dedent)*
+            (else 
+            	newline indent (Block )*
+             dedent)*   --if
+  
+  Statement =  
+            | id "is" Relop  newline?           		 --vardec
+            | Var is Relop  newline?                 --assign
+            | output Relop newline?                    --print
+            | call id Var ( "," Var )*     --funccall
+            | out Relop newline?                        --return
+            | Relop 
+            
+  Relop = Relop ("and" | "or" | "<=" | ">=" | "<" | ">" | "==" | "!=")  Exp        --binary
+            | Exp                                                 --unary
+            
+  Exp       = Exp ("+" | "-") Term            --binary
+            | Term
+            
+  Term      = Term ("*"| "/"|"^"|"%") Factor          --binary
+            | Factor
+            
+  Factor    = Var 
+            | number
+            | "\"" (~"\\" ~"\"" ~"\n" any | escape)* "\""                --string
+            | list "[" (Factor ( "," Factor )* )? "]"              --list
+            | map "[" ( "[" id ":" Factor "]"  ( ","  "[" id ":" Factor "]" )* )? "]"  --map
+            | "(" Exp ")"                     --parens
+            
+  Var       = id
+  
+  number       = digit+ ("." digit+)?
+  list = "list" ~alnum
+  map="map" ~alnum
+  loop="loop" ~alnum
+  until="until" ~alnum
+  from="from" ~alnum
+  to="to" ~alnum
+  by="by" ~alnum
+  function="function" ~alnum
+  if="if" ~alnum 
+  out = "out:" ~alnum
+  else="else" ~alnum
+  is       = "is" ~alnum
+  output     = "output" ~alnum
+  keyword   = is | output | loop | until | from | to | by | function | if | map | list | "out:" | "call:"
+  id        = ~keyword letter alnum*
+  call    = "call:" ~alnum
+  
+  newline= "\n"+
+    indent      = "\t"
+  dedent      = "⇦"
+  space       := " "  | comment
+  comment     = "!!!" (~"\n" any)* "\n"                            -- singleLine
+              | "!?" (~"?!" any)* "?!"                             -- multiLine
+  escape      = "\\" ("\\" | "\"")                           -- simple
+}

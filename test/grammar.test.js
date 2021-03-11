@@ -2,8 +2,9 @@ let fs = require("fs");
 let ohm = require("ohm-js");
 let assert = require("assert");
 
-let contents = fs.readFileSync(__dirname + "/examples/quotecodequote.ohm");
-let codequotecode = ohm.grammar(contents);
+let codequotecode = ohm.grammar(
+  fs.readFileSync("../quotecodequote/Grammar/quotecodequote.ohm")
+);
 
 describe("assignment", () => {
   it("lets us assign an id to a number", () => {
@@ -27,12 +28,15 @@ describe("assignment", () => {
 describe("functions", () => {
   it("lets us declare a simple function", () => {
     results = codequotecode.match(
-      "function sum in: x,y \n\t sum is x + y \n out: sum/2"
+      "function sum in: x,y\n \
+        \tsum is x+y\n \
+        out: sum/2\n \
+        ⇦"
     );
     assert(results.succeeded());
   });
   it("lets us call a function", () => {
-    results = codequotecode.match("sum(1,2)");
+    results = codequotecode.match("call: sum x,y");
     assert(results.succeeded());
   });
   it("lets us declare a function without parameters", () => {
@@ -44,7 +48,13 @@ describe("functions", () => {
 describe("conditionals and loops", () => {
   it("lets us write a conditional statement", () => {
     results = codequotecode.match(
-      "if x == 0 \n\t output y \n ⇦ else if x == 1 \n\t output z \n ⇦else \n\t output z+3"
+      "if x == 0 \n \
+        \t output y \n \
+        ⇦ else if x == 1 \n \
+          \t output z \n  \
+        ⇦else \n \
+          \t output z+3 \n \
+        ⇦"
     );
     assert(results.succeeded());
   });

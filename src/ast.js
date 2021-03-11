@@ -69,18 +69,21 @@ export class Print {
   }
 }
 
+//covers all binary statements
 export class BinaryExp {
   constructor(op, left, right) {
     Object.assign(this, { op, left, right });
   }
 }
 
+//covers all unary statements
 export class UnaryExp {
   constructor(op, operand) {
     Object.assign(this, { op, operand });
   }
 }
 
+//covers all statements leading directly to another class
 export class IdentifierExpression {
   constructor(name) {
     this.name = name;

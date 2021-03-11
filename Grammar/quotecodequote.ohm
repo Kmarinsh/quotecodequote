@@ -2,10 +2,12 @@ codequotecode {
   Program   = Block+
   
   Block = 
-  			    Function
+  			Function
             | While
             | For
             | If
+            | ElseIf
+            | Else
             | Statement
             
    Function = function Var "in:" Var ("," Var)* 
@@ -14,7 +16,7 @@ codequotecode {
    While = 
    			 loop until Relop                 
             	newline indent (Block )*
-          dedent "end" newline 
+             dedent "end" newline 
   For =
               loop id from number to number by number 
            		 newline indent  (Block )* 
@@ -22,8 +24,6 @@ codequotecode {
    
    If =  | if Relop 
             newline indent (Block )* dedent
-            (ElseIf)*
-            (Else)* 
              
   ElseIf=
   			 else if Relop 

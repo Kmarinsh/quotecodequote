@@ -1,0 +1,3 @@
+function average in: x, y
+    sum is x + y
+    out: sum / 2

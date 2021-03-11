@@ -1,0 +1,7 @@
+function largestNum in: x, y, z
+    if x >= y and x >= z
+        out: x
+    else if y >= x and y >= z
+        out: y
+    else
+        out: z

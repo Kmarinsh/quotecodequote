@@ -1,0 +1,5 @@
+function factorial in: x
+    if x == 0 or x == 1
+        out: x
+    else
+        out: x * call: factoral x-1

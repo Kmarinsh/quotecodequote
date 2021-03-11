@@ -1,0 +1,14 @@
+function finAddendsOf in: nums, target
+    if length(nums) == 2
+        out: []
+    ans is list
+    hashtable is map
+    loop i from 0 to length(nums) by 1
+        complement is target-nums[i]
+        find is hashtable[complement]
+        if find != undefined
+            ans list[find, i]
+            break
+        hashtable[nums[i]] is if
+    end
+    out: ans

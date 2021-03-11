@@ -2,7 +2,7 @@ codequotecode {
   Program   = Block+
   
   Block = 
-  			Function
+  			    Function
             | While
             | For
             | If
@@ -14,7 +14,7 @@ codequotecode {
    While = 
    			 loop until Relop                 
             	newline indent (Block )*
-             dedent "end" newline 
+          dedent "end" newline 
   For =
               loop id from number to number by number 
            		 newline indent  (Block )* 

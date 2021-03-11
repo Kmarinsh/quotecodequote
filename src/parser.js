@@ -7,10 +7,9 @@ const qcqGrammar = ohm.grammar(
   fs.readFileSync("../quotecodequote/Grammar/quotecodequote.ohm")
 );
 
-export default function parse(sourceCode) {
-  const match = aelGrammar.match(sourceCode)
-  if (!match.succeeded()) {
-    throw new Error(match.message)
+export default function parse(code) {
+  const match = qcqGrammar.match(code);
+  if (!match.succeeded) {
+    throw new Error(match.message);
   }
-  return astBuilder(match).ast()
 }

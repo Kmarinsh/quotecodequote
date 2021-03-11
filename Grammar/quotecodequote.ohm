@@ -32,7 +32,7 @@ codequotecode {
             | id "is" Relop  newline?           		 --vardec
             | Var is Relop  newline?                 --assign
             | output Relop newline?                    --print
-            | call id Var ( "," Var )*     --funccall
+            | call id Var ( "," Var )*  newline?   --funccall
             | out Relop newline?                        --return
             | Relop 
             

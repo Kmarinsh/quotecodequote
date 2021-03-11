@@ -3,38 +3,56 @@ codequotecode {
   
   Block = 
   			Function
-            | Loop
+            | While
+            | For
             | If
             | Statement
             
    Function = function Var "in:" Var ("," Var)* 
             newline indent (Block )* dedent  --func
    
-   Loop = 
-   			| loop until Relop                 
+   While = 
+   			 loop until Relop                 
             	newline indent (Block )*
-             dedent "end" newline  --while
-            
-            | loop id from number to number by number 
+             dedent "end" newline 
+  For =
+              loop id from number to number by number 
            		 newline indent  (Block )* 
-              dedent "end" newline  --for
+              dedent "end" newline 
    
    If =  | if Relop 
             newline indent (Block )* dedent
-            (else if Relop 
+            (ElseIf)*
+            (Else)* 
+             
+  ElseIf=
+  			 else if Relop 
             	newline indent (Block )*
-             dedent)*
-            (else 
+             dedent
+             
+  Else=
+  			else 
             	newline indent (Block )*
-             dedent)*   --if
+             dedent
+  			
   
   Statement =  
-            | id "is" Relop  newline?           		 --vardec
-            | Var is Relop  newline?                 --assign
-            | output Relop newline?                    --print
-            | call id Var ( "," Var )*  newline?   --funccall
-            | out Relop newline?                        --return
+            | VarDec
+            | Assign
+            | Print
+            | FuncCall    
+            | Return 
             | Relop 
+            
+  VarDec=id "is" Relop  newline?
+  
+  Assign=Var is Relop  newline?
+  
+  Print= output Relop newline? 
+  
+  FuncCall=call id Var ( "," Var )*
+  
+  Return=out Relop newline?
             
   Relop = Relop ("and" | "or" | "<=" | ">=" | "<" | ">" | "==" | "!=")  Exp        --binary
             | Exp                                                 --unary

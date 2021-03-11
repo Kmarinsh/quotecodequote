@@ -34,14 +34,14 @@ export class For {
 }
 
 export class If {
-  constructor(statement) {
-    this.statements = { statement };
+  constructor(condition, body) {
+    Object.assign(this, { condition, body });
   }
 }
 
 export class ElseIf {
-  constructor(statement) {
-    this.statements = { statement };
+  constructor(condition, body) {
+    Object.assign(this, { condition, body });
   }
 }
 

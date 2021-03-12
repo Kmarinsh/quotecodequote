@@ -13,8 +13,8 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
   Block(statements) {
     return new ast.Block(statements.ast());
   },
-  Block_conditional(ifstatement, elseifstatement, elsestatement) {
-    return new ast.If(ifstatement.ast());
+  Block_conditional(ifstatement, elifstatement, elsestatement, _end) {
+    return new ast.Block(ifstatement.ast());
   },
   Function(_func, name, params, _is, block, _end) {
     return new ast.Function(name.ast(), params.sourceString, block.ast());
@@ -34,16 +34,11 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
       block.ast()
     );
   },
-  If(_if, condition, block, elseIf, elseStatement, _end) {
-    return new ast.If(
-      condition.ast(),
-      block.ast(),
-      elseIf.ast(),
-      elseStatement.ast()
-    );
+  If(_if, condition, block) {
+    return new ast.If(condition.ast(), block.ast());
   },
-  ElseIf(_else, _if, condition, block) {
-    return new ast.ElseIf(condition.ast(), block.ast());
+  Elif(_elif, condition, block) {
+    return new ast.Elif(condition.ast(), block.ast());
   },
   Else(_else, block) {
     return new ast.Else(block.ast());
@@ -57,7 +52,7 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
   Print(_output, argument) {
     return new ast.Print(argument.ast());
   },
-  FuncCall_withArgs(_call, name, _with, param1, _comma, paramR) {
+  FuncCall_withArgs(_call, name, _with, param1, _and, paramR) {
     return new ast.FuncCall(name.ast(), param1.ast(), paramR.ast());
   },
   FuncCall_noArgs(_call, name) {
@@ -67,22 +62,37 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
     return new ast.Return(statement.ast());
   },
 
+  Condition(exp) {
+    return new ast.Condition(exp.ast());
+  },
   Condition_logical(left, op, right) {
-    return new ast.Condition(op, left, right);
+    return new ast.BinaryExp(op.sourceString, left.ast(), right.ast());
   },
 
+  Relation(exp) {
+    return new ast.Relation(exp.ast());
+  },
   Relation_binary(left, op, right) {
-    return new ast.Relation(op, left, right);
+    return new ast.BinaryExp(op.sourceString, left.ast(), right.ast());
   },
 
+  Exp(exp) {
+    return new ast.Exp(exp.ast());
+  },
   Exp_binary(left, op, right) {
     return new ast.BinaryExp(op.sourceString, left.ast(), right.ast());
   },
 
+  Term(exp) {
+    return new ast.Term(exp.ast());
+  },
   Term_binary(left, op, right) {
     return new ast.BinaryExp(op.sourceString, left.ast(), right.ast());
   },
 
+  Factor(exp) {
+    return new ast.Factor(exp.ast());
+  },
   Factor_string(_quote1, id, _quote2) {
     return new ast.IdentifierExpression(this.sourceString);
   },

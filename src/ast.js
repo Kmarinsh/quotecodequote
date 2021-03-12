@@ -51,15 +51,15 @@ export class If {
   }
 }
 
-export class ElseIf {
+export class Elif {
   constructor(condition, body) {
     Object.assign(this, { condition, body });
   }
 }
 
 export class Else {
-  constructor(name) {
-    this.names = { name };
+  constructor(body) {
+    this.body = { body };
   }
 }
 
@@ -94,14 +94,14 @@ export class Return {
 }
 
 export class Condition {
-  constructor(op, left, right) {
-    Object.assign(this, { op, left, right });
+  constructor(name) {
+    this.name = name;
   }
 }
 
 export class Relation {
-  constructor(op, left, right) {
-    Object.assign(this, { op, left, right });
+  constructor(name) {
+    this.name = name;
   }
 }
 
@@ -118,6 +118,18 @@ export class Term {
 }
 
 export class Factor {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+export class Var {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+export class id {
   constructor(name) {
     this.name = name;
   }

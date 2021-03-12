@@ -1,8 +1,8 @@
 import util from "util";
 
 export class Program {
-  constructor(statements) {
-    this.statements = statements;
+  constructor(names) {
+    this.names = names;
   }
   [util.inspect.custom]() {
     return prettied(this);
@@ -10,32 +10,44 @@ export class Program {
 }
 
 export class Block {
-  constructor(statements) {
-    this.statements = statements;
+  constructor(names) {
+    this.names = names;
+  }
+}
+
+export class Statement {
+  constructor(name) {
+    this.name = name;
   }
 }
 
 export class Function {
   constructor(name, params, block) {
-    Object.Assign(this, { name, params, block });
+    Object.assign(this, { name, params, block });
+  }
+}
+
+export class Params {
+  constructor(param, ...params) {
+    Object.assign(this, { param, params });
   }
 }
 
 export class While {
   constructor(condition, block) {
-    Object.Assign(this, { condition, block });
+    Object.assign(this, { condition, block });
   }
 }
 
 export class For {
   constructor(name, initial, final, increment, block) {
-    Object.Assign(this, { name, initial, final, increment, block });
+    Object.assign(this, { name, initial, final, increment, block });
   }
 }
 
 export class If {
-  constructor(condition, body) {
-    Object.assign(this, { condition, body });
+  constructor(condition, body, elseifstatement, elsestatement) {
+    Object.assign(this, { condition, body, elseifstatement, elsestatement });
   }
 }
 
@@ -46,8 +58,8 @@ export class ElseIf {
 }
 
 export class Else {
-  constructor(statement) {
-    this.statements = { statement };
+  constructor(name) {
+    this.names = { name };
   }
 }
 
@@ -70,35 +82,65 @@ export class Print {
 }
 
 export class FuncCall {
-  constructor(name, ...params) {
-    Object.assign(this, { name, params });
+  constructor(name, param, params) {
+    Object.assign(this, { name, param, params });
   }
 }
 
 export class Return {
-  constructor(statement) {
-    this.statement = statement;
+  constructor(name) {
+    this.name = name;
   }
 }
 
-//covers all binary statements
+export class Condition {
+  constructor(op, left, right) {
+    Object.assign(this, { op, left, right });
+  }
+}
+
+export class Relation {
+  constructor(op, left, right) {
+    Object.assign(this, { op, left, right });
+  }
+}
+
+export class Exp {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+export class Term {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+export class Factor {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+//covers all binary names
 export class BinaryExp {
   constructor(op, left, right) {
     Object.assign(this, { op, left, right });
   }
 }
 
-//covers all unary statements
+//covers all unary names
 export class UnaryExp {
   constructor(op, operand) {
     Object.assign(this, { op, operand });
   }
 }
 
-//covers all statements leading directly to another class
+//covers all names leading directly to another class
 export class IdentifierExpression {
-  constructor(name) {
-    this.name = name;
+  constructor(id) {
+    this.id = id;
   }
 }
 

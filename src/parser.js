@@ -1,160 +1,31 @@
+import fs from "fs";
 import ohm from "ohm-js";
 import * as ast from "./ast.js";
 
-const qcqGrammar = ohm.grammar(`
-  codequotecode {
-    Program   = Block+
-    
-    Block = 
-          Function
-              | While
-              | For
-              | If
-              | ElseIf
-              | Else
-              | Statement
-              
-     Function = function Var "in:" Var ("," Var)* 
-              newline indent (Block )* dedent 
-     
-     While = 
-            loop until Relop                 
-                newline indent (Block )*
-               dedent "end" newline 
-    For =
-                loop id from number to number by number 
-                  newline indent  (Block )* 
-                dedent "end" newline 
-     
-     If =  | if Relop 
-              newline indent (Block )* dedent
-               
-    ElseIf=
-           else if Relop 
-                newline indent (Block )*
-               dedent
-               
-    Else=
-          else 
-                newline indent (Block )*
-               dedent
-          
-    
-    Statement =  
-              | VarDec
-              | Assign
-              | Print
-              | FuncCall    
-              | Return 
-              | Relop 
-              
-    VarDec=id "is" Relop  newline?
-    
-    Assign=Var is Relop  newline?
-    
-    Print= output Relop newline? 
-    
-    FuncCall=call id Var ( "," Var )*
-    
-    Return=out Relop newline?
-              
-    Relop = Relop ("and" | "or" | "<=" | ">=" | "<" | ">" | "==" | "!=")  Exp        --binary
-              | Exp                                                 --unary
-              
-    Exp       = Exp ("+" | "-") Term            --binary
-              | Term
-              
-    Term      = Term ("*"| "/"|"^"|"%") Factor          --binary
-              | Factor
-              
-    Factor    = Var 
-              | number
-              | "'" (~" ' " ~" ' " ~newline any | escape)* " ' "                 --string
-              | list "[" (Factor ( "," Factor )* )? "]"              --list
-              | map "[" ( "[" id ":" Factor "]"  ( ","  "[" id ":" Factor "]" )* )? "]"  --map
-              | "(" Exp ")"                     --parens
-              
-    Var       = id
-    
-    number       = digit+ ("." digit+)?
-    list = "list" ~alnum
-    map="map" ~alnum
-    loop="loop" ~alnum
-    until="until" ~alnum
-    from="from" ~alnum
-    to="to" ~alnum
-    by="by" ~alnum
-    function="function" ~alnum
-    if="if" ~alnum 
-    out = "out:" ~alnum
-    else="else" ~alnum
-    is       = "is" ~alnum
-    output     = "output" ~alnum
-    keyword   = is | output | loop | until | from | to | by | function | if | map | list | "out:" | "call:"
-    id        = ~keyword letter alnum*
-    call    = "call:" ~alnum
-    
-    newline= "\\n"+
-      indent      = "\\t"
-    dedent      = "⇦"
-    space       := " "  | comment
-    comment     = "!!!" (~"newline" any)* newline                            -- singleLine
-                | "!?" (~"?!" any)* "?!"                             -- multiLine
-    escape      = "\\\""
-              }`);
+const qcqGrammar = ohm.grammar(
+  fs.readFileSync("../quotecodequote/Grammar/quotecodequote.ohm")
+);
 
 const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
   Program(body) {
     return new ast.Program(body.ast());
   },
-  Function(
-    _function,
-    name,
-    _in,
-    param1,
-    _comma,
-    paramR,
-    _newline,
-    _indent,
-    block,
-    _dedent
-  ) {
-    return new ast.Function(
-      name.ast(),
-      param1.ast(),
-      paramR.ast(),
-      block.ast()
-    );
+  Block(statements) {
+    return new ast.Block(statements.ast());
   },
-  While(
-    _loop,
-    _until,
-    condition,
-    _newline,
-    _indent,
-    block,
-    _dedent,
-    _end,
-    _newline2
-  ) {
+  Block_conditional(ifstatement, elseifstatement, elsestatement) {
+    return new ast.If(ifstatement.ast());
+  },
+  Function(_func, name, params, _is, block, _end) {
+    return new ast.Function(name.ast(), params.sourceString, block.ast());
+  },
+  Params(_of, param, _and, params) {
+    return new ast.Params(param, params);
+  },
+  While(_loop, _until, condition, block, _end) {
     return new ast.While(condition.ast(), block.ast());
   },
-  For(
-    _loop,
-    name,
-    _from,
-    initial,
-    _to,
-    final,
-    _by,
-    increment,
-    _newline,
-    _indent,
-    block,
-    _dedent,
-    _end,
-    _newline2
-  ) {
+  For(_loop, name, _from, initial, _to, final, _by, increment, block, _end) {
     return new ast.For(
       name.ast(),
       initial.ast(),
@@ -163,37 +34,65 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
       block.ast()
     );
   },
-  If(_if, statement, _newline, _indent, block, _dedent) {
-    return new ast.If(statement.ast(), block.ast());
+  If(_if, condition, block, elseIf, elseStatement, _end) {
+    return new ast.If(
+      condition.ast(),
+      block.ast(),
+      elseIf.ast(),
+      elseStatement.ast()
+    );
   },
-  ElseIf(_else, _if, statement, _newline, _indent, block, _dedent) {
-    return new ast.ElseIf(statement.ast(), block.ast());
+  ElseIf(_else, _if, condition, block) {
+    return new ast.ElseIf(condition.ast(), block.ast());
   },
-  Else(_else, _newline, _indent, block, _dedent) {
-    return new ast.If(statement.ast(), block.ast());
+  Else(_else, block) {
+    return new ast.Else(block.ast());
   },
-  VarDec(id, _is, initializer, _newline) {
+  VarDec(id, _is, initializer) {
     return new ast.VarDec(id.sourceString, initializer.ast());
   },
-  Assign(target, _eq, source, _newline) {
+  Assign(target, _is, source) {
     return new ast.Assign(target.ast(), source.ast());
   },
-  Print(_print, argument, _newline) {
+  Print(_output, argument) {
     return new ast.Print(argument.ast());
   },
-  FuncCall(_call, name, param1, _comma, paramR) {
+  FuncCall_withArgs(_call, name, _with, param1, _comma, paramR) {
     return new ast.FuncCall(name.ast(), param1.ast(), paramR.ast());
   },
-  Return(_out, statement, _newline) {
+  FuncCall_noArgs(_call, name) {
+    return new ast.FuncCall(name.ast());
+  },
+  Return(_out, statement) {
     return new ast.Return(statement.ast());
   },
+
+  Condition_logical(left, op, right) {
+    return new ast.Condition(op, left, right);
+  },
+
+  Relation_binary(left, op, right) {
+    return new ast.Relation(op, left, right);
+  },
+
   Exp_binary(left, op, right) {
     return new ast.BinaryExp(op.sourceString, left.ast(), right.ast());
   },
+
   Term_binary(left, op, right) {
     return new ast.BinaryExp(op.sourceString, left.ast(), right.ast());
   },
+
+  Factor_string(_quote1, id, _quote2) {
+    return new ast.IdentifierExpression(this.sourceString);
+  },
   Var(id) {
+    return new ast.IdentifierExpression(this.sourceString);
+  },
+  id(id, _other) {
+    return new ast.IdentifierExpression(this.sourceString);
+  },
+  number(id, _point, decimal) {
     return new ast.IdentifierExpression(this.sourceString);
   },
 });

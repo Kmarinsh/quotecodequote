@@ -1,24 +1,22 @@
-codequotecode {
+quotecodequote {
   Program   = Block+
   Block     = Function
             | While
             | For
-            | If Elif* Else? kwend   --conditional
+            | If      --conditional
             | Statement
-  Statement = VarDec
-            | Assign
+  Statement = Assign
             | Print
             | FuncCall
             | Return
             | Condition
   Function  = function Var Params? is Block+ kwend
-  Params    = of Var (and Var)*
+  Params    = of Factor (and Factor)*
   While     = loop until Condition Block* kwend
   For       = loop id from number to number by number Block* kwend
-  If        = if Condition Block*
-  Elif      = elif Condition Block*
-  Else      = else Block*
-  VarDec    = id "is" Condition
+  If        = if Condition Block* kwend Elif* Else? 
+  Elif      = elif Condition Block* kwend
+  Else      = else Block* kwend
   Assign    = Var is Condition
   Print     = output Condition
   FuncCall  = call Var "with" Exp (and Exp )*   --withArgs

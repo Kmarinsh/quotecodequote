@@ -13,14 +13,11 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
   Block(statements) {
     return new ast.Block(statements.ast());
   },
-  Block_conditional(ifstatement, elifstatement, elsestatement, _end) {
-    return new ast.Block(ifstatement.ast());
-  },
   Function(_func, name, params, _is, block, _end) {
-    return new ast.Function(name.ast(), params.sourceString, block.ast());
+    return new ast.Function(name.ast(), params.ast(), block.ast());
   },
   Params(_of, param, _and, params) {
-    return new ast.Params(param, params);
+    return new ast.Params(param.ast(), params.ast());
   },
   While(_loop, _until, condition, block, _end) {
     return new ast.While(condition.ast(), block.ast());
@@ -34,29 +31,20 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
       block.ast()
     );
   },
-  If(_if, condition, block) {
-    return new ast.If(condition.ast(), block.ast());
+  If(_if, condition, block,_end, elifstatement , elsestatement ) {
+    return new ast.If(condition.ast(), block.ast(), elifstatement.ast(),elsestatement.ast());
   },
-  Elif(_elif, condition, block) {
+  Elif(_elif, condition, block,_end) {
     return new ast.Elif(condition.ast(), block.ast());
   },
-  Else(_else, block) {
+  Else(_else, block,_end) {
     return new ast.Else(block.ast());
-  },
-  VarDec(id, _is, initializer) {
-    return new ast.VarDec(id.sourceString, initializer.ast());
   },
   Assign(target, _is, source) {
     return new ast.Assign(target.ast(), source.ast());
   },
   Print(_output, argument) {
     return new ast.Print(argument.ast());
-  },
-  FuncCall_withArgs(_call, name, _with, param1, _and, paramR) {
-    return new ast.FuncCall(name.ast(), param1.ast(), paramR.ast());
-  },
-  FuncCall_noArgs(_call, name) {
-    return new ast.FuncCall(name.ast());
   },
   Return(_out, statement) {
     return new ast.Return(statement.ast());
@@ -72,6 +60,7 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
   Relation(exp) {
     return new ast.Relation(exp.ast());
   },
+  
   Relation_binary(left, op, right) {
     return new ast.BinaryExp(op.sourceString, left.ast(), right.ast());
   },

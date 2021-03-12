@@ -15,12 +15,6 @@ export class Block {
   }
 }
 
-export class Statement {
-  constructor(name) {
-    this.name = name;
-  }
-}
-
 export class Function {
   constructor(name, params, block) {
     Object.assign(this, { name, params, block });
@@ -28,7 +22,7 @@ export class Function {
 }
 
 export class Params {
-  constructor(param, ...params) {
+  constructor(param, params) {
     Object.assign(this, { param, params });
   }
 }
@@ -62,13 +56,7 @@ export class Else {
     this.body = { body };
   }
 }
-
-export class VarDec {
-  constructor(name, initializer) {
-    Object.assign(this, { name, initializer });
-  }
-}
-
+ 
 export class Assign {
   constructor(target, source) {
     Object.assign(this, { target, source });
@@ -78,12 +66,6 @@ export class Assign {
 export class Print {
   constructor(argument) {
     this.argument = argument;
-  }
-}
-
-export class FuncCall {
-  constructor(name, param, params) {
-    Object.assign(this, { name, param, params });
   }
 }
 
@@ -123,29 +105,10 @@ export class Factor {
   }
 }
 
-export class Var {
-  constructor(name) {
-    this.name = name;
-  }
-}
-
-export class id {
-  constructor(name) {
-    this.name = name;
-  }
-}
-
 //covers all binary names
 export class BinaryExp {
   constructor(op, left, right) {
     Object.assign(this, { op, left, right });
-  }
-}
-
-//covers all unary names
-export class UnaryExp {
-  constructor(op, operand) {
-    Object.assign(this, { op, operand });
   }
 }
 

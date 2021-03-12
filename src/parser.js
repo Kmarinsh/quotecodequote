@@ -98,7 +98,7 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
 
 export default function parse(code) {
   const match = qcqGrammar.match(code);
-  if (!match.succeeded) {
+  if (!match.succeeded()) {
     throw new Error(match.message);
   }
   return astBuilder(match).ast();

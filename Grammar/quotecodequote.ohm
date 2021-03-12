@@ -15,7 +15,7 @@ codequotecode {
   Params    = of Var (and Var)*
   While     = loop until Condition Block* kwend
   For       = loop id from number to number by number Block* kwend
-  If        = if Condition ElseIf* Else? kwend
+  If        = if Condition Block* ElseIf* Else? kwend
   ElseIf    = else if Condition Block*
   Else      = else Block*
   VarDec    = id "is" Condition

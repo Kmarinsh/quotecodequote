@@ -22,12 +22,8 @@
   width: 15%;
 }
 
-/* Main column */
 .main {  
-  word-wrap: break-word;
-  width: 350px;
   text-align: center;
   background-color: white;
-  padding: 20px;
 }
 

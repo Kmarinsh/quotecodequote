@@ -13,11 +13,6 @@
   color: white;
 }
 
-/* Increase the font size of the heading */
-.header h1 {
-  font-size: 40px;
-}
-
 .center {
   display: block;
   margin-left: auto;
@@ -33,9 +28,3 @@
   padding: 20px;
 }
 
-/* Footer */
-.footer {
-  padding: 20px;
-  text-align: center;
-  background: #ddd;
-}

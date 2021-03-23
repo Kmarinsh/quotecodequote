@@ -24,7 +24,9 @@
 }
 
 /* Main column */
-.main {   
+.main {  
+  word-wrap: break-word;
+  width: 100px;
   text-align: center;
   -ms-flex: 70%; /* IE10 */
   flex: 70%;

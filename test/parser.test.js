@@ -258,14 +258,14 @@ const expectedAst2 = String.raw`   1 | Program names=[#2]
   82 | Factor name=#83
   83 | IdentifierExpression id='z'`;
 
-const expectedAst3 = String.raw`   1 | Program names=[#2]
+const expectedAst3 = String.raw`   1 | Program blocks=[#2]
    2 | Block statements=#3
-   3 | Function name=#4 params=[#5] block=[#7]
+   3 | Function id=#4 params=[#5] block=[#7]
    4 | IdentifierExpression id='factorial'
-   5 | Params params=[#6]
+   5 | Params factors=[#6]
    6 | IdentifierExpression id='x'
    7 | Block statements=#8
-   8 | If condition=#9 body=[#16] elseifstatement=[] elsestatement=[#19]
+   8 | If condition=#9 block=[#16] elifstatement=[] elsestatement=[#19]
    9 | BinaryExp op='or' left=#10 right=#13
   10 | BinaryExp op='==' left=#11 right=#12
   11 | IdentifierExpression id='x'
@@ -274,12 +274,12 @@ const expectedAst3 = String.raw`   1 | Program names=[#2]
   14 | IdentifierExpression id='x'
   15 | IdentifierExpression id='1'
   16 | Block statements=#17
-  17 | Return name=#18
+  17 | Return value=#18
   18 | IdentifierExpression id='x'
-  19 | Else body=#20
-  20 | Object body=[#21,#26,#28]
+  19 | Else block=#20
+  20 | Object block=[#21,#26,#28]
   21 | Block statements=#22
-  22 | Return name=#23
+  22 | Return value=#23
   23 | BinaryExp op='*' left=#24 right=#25
   24 | IdentifierExpression id='x'
   25 | IdentifierExpression id='call'

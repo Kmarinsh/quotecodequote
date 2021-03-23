@@ -60,7 +60,10 @@ p {
 
 
 
-.why {
+.what_why {
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-color: red;
   margin-left: auto; 
   margin-right: auto;
   width: 300px;
@@ -72,8 +75,49 @@ p {
   text-indent: 15px;
   margin-left: auto; 
   margin-right: auto;
-  width: 800px;
+  width: 600px;
   text-align: left;
   background-color: white;
+}
+
+.exampleTitle{
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-color: red;
+  width: 300px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 30px;
+}
+
+.examplesTitles {
+  font-size: 15px;
+}
+
+.ex1, .ex2, .ex3 {
+  display: inline-block;
+  vertical-align: top;
+  width: 35%;
+}
+
+.ex3, .ex4 {
+  display: inline-block;
+  vertical-align: top;
+  width: 35%;
+}
+
+.bottom{
+  padding: 80px;
+  background: #212121;
+  color: white;
+  border-style: solid;
+  border-bottom-color: red;
+}
+
+.code{
+  margin-left: auto; 
+  margin-right: auto;
+  text-align: left;
 }
 

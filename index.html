@@ -18,12 +18,12 @@
 </div>
 
 <div class="main">
-  <h1>What is qcq?</h1>
+  <h1 class="what_why">What is qcq?</h1>
   <p>qcq is a language that is made to allow you to use pseuodocode for programming.</p>
 </div>
 
 <div class="explain">
-  <h2 class="why">You may be asking... why would anyone do this?</h2>
+  <h2 class="what_why">You may be asking... why would anyone do this?</h2>
    <div class="row">
      <div class="column">
       <p class="p1">
@@ -38,6 +38,65 @@
        </p>
      </div>
    </div>
+</div>
+
+<div class="bottom">
+  <h3 class="exampleTitle">Examples</h3>
+  <div class="examples">
+    <div class="ex1">
+      <h3 class="examplesTitles">Find largest number</h3>
+      <pre>
+        <code class="code">
+function largestNum of x and y and z is
+  if x >= y and x >= z
+    out: x
+  end
+  elif y >= x and y >= z
+    out: y
+  end
+  else
+    out: z
+  end
+end
+        </code>
+      </pre>
+    </div>
+    <div class="ex2">
+      <h4 class="examplesTitles">While loop</h4>
+      <pre>
+        <code class="code">
+loop i from 0 to 10 by 1
+  call: average with x as 3 and y as 2+4
+end
+        </code>
+      </pre>
+    </div>
+    <div class="ex3">
+      <h5 class="examplesTitles">Factorial</h5>
+        <pre>
+          <code class="code">
+function factorial of x is
+  if x == 0 or x == 1
+    out: x
+  end
+  else
+    out: x * call factoral x-1
+  end
+end
+          </code>
+        </pre>
+    </div>
+    <div class="ex4">
+      <h6 class="examplesTitles">Class Dec/Call</h6>
+        <pre>
+          <code class="code">
+            class Point has x and y end
+            ...
+            p is new Point with x as 3 and y as 5
+          </code>
+        </pre>
+    </div>
+  </div>
 </div>
 
 </body>

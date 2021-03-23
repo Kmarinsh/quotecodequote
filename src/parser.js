@@ -66,6 +66,18 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
     return new ast.Return(statement.ast());
   },
 
+  ClassCall(_new, id, args) {
+    return new ast.ClassCall(id.ast(), args.ast());
+  },
+
+  FuncCall(_call, id, args) {
+    return new ast.FuncCall(id.ast(), args.ast());
+  },
+
+  Args(_with, id, _as, exp, _and, ids, _as2, exps) {
+    return new ast.Args([id.ast(), ...ids.ast()], [exp.ast(), ...exps.ast()]);
+  },
+
   Condition_logical(left, op, right) {
     return new ast.BinaryExp(op.sourceString, left.ast(), right.ast());
   },
@@ -83,6 +95,9 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
 
   Factor_string(_quote1, id, _quote2) {
     return new ast.IdentifierExpression(this.sourceString);
+  },
+  Factor_parens(_openP, exp, _closeP) {
+    return new ast.IdentifierExpression(exp.sourceString);
   },
   Var(id) {
     return new ast.IdentifierExpression(this.sourceString);

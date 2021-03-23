@@ -87,6 +87,24 @@ export class Print {
   }
 }
 
+export class ClassCall {
+  constructor(id, args) {
+    Object.assign(this, { id, args });
+  }
+}
+
+export class FuncCall {
+  constructor(id, args) {
+    Object.assign(this, { id, args });
+  }
+}
+
+export class Args {
+  constructor(id, Exp) {
+    Object.assign(this, { id, Exp });
+  }
+}
+
 export class Return {
   constructor(name) {
     this.name = name;

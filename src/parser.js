@@ -14,11 +14,14 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
     return new ast.Block(statements.ast());
   },
 
-  Class(_class, id, _has, fields, _end) {
-    return new ast.Class(id.ast(), fields.ast());
+  Class(_class, id, fields, methods, _end) {
+    return new ast.Class(id.ast(), fields.ast(), methods.ast());
   },
   Field(_has, field, _and, fields) {
     return new ast.Field([field.ast(), ...fields.ast()]);
+  },
+  Method(name, params, _is, body, _end) {
+    return new ast.Method(name.ast(), params.ast(), body.ast());
   },
 
   Function(_func, name, params, _is, block, _end) {

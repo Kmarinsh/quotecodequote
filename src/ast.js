@@ -16,14 +16,20 @@ export class Block {
 }
 
 export class Class {
-  constructor(id, fields, body) {
-    Object.Assign(this, { id, fields, body });
+  constructor(id, fields, methods) {
+    Object.assign(this, { id, fields, methods });
   }
 }
 
 export class Field {
   constructor(fields) {
-    Object.Assign(this, { fields });
+    Object.assign(this, { fields });
+  }
+}
+
+export class Method {
+  constructor(name, params, block) {
+    Object.assign(this, { name, params, block });
   }
 }
 

@@ -25,7 +25,7 @@ quotecodequote {
   Assign    = Var is (Condition | ClassCall)
   Print     = output Condition
   ClassCall = new id Args? 
-  ClassField= id colon id                                                             
+  ClassAttr = id colon id                                                             
   FuncCall  = call id Args?                               
   Args      = with id as Exp (and id as Exp)*                                        
   Return    = out Condition
@@ -43,9 +43,9 @@ quotecodequote {
             | list "[" (Factor ( "," Factor )* )? "]"                                   --list
             | map "[" ( "[" id ":" Factor "]"  ( ","  "[" id ":" Factor "]" )* )? "]"   --map
             | "(" Exp ")"                                                               --parens
-  Var       = ClassField
+  Var       = ClassAttr
             |id
-  number    = digit+ ("." digit+)?
+  number    = ("-")? digit+ ("." digit+)?
   list      = "list" 
   map       = "map" 
   of        = "of" 

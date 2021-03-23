@@ -11,6 +11,8 @@
   text-align: center;
   background: #1abc9c;
   color: white;
+  border-style: solid;
+  border-bottom-color: red;
 }
 
 .center {

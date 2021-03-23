@@ -105,7 +105,7 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
   id(id, _other) {
     return new ast.IdentifierExpression(this.sourceString);
   },
-  number(id, _point, decimal) {
+  number(negative, id, _point, decimal) {
     return new ast.IdentifierExpression(this.sourceString);
   },
 });

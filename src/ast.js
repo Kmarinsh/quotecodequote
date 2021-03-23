@@ -10,8 +10,20 @@ export class Program {
 }
 
 export class Block {
-  constructor(names) {
-    this.names = names;
+  constructor(statements) {
+    this.statements = statements;
+  }
+}
+
+export class Class {
+  constructor(id, fields, body) {
+    Object.Assign(this, { id, fields, body });
+  }
+}
+
+export class Field {
+  constructor(fields) {
+    Object.Assign(this, { fields });
   }
 }
 
@@ -22,8 +34,8 @@ export class Function {
 }
 
 export class Params {
-  constructor(param, params) {
-    Object.assign(this, { param, params });
+  constructor(params) {
+    Object.assign(this, { params });
   }
 }
 
@@ -56,7 +68,7 @@ export class Else {
     this.body = { body };
   }
 }
- 
+
 export class Assign {
   constructor(target, source) {
     Object.assign(this, { target, source });
@@ -70,36 +82,6 @@ export class Print {
 }
 
 export class Return {
-  constructor(name) {
-    this.name = name;
-  }
-}
-
-export class Condition {
-  constructor(name) {
-    this.name = name;
-  }
-}
-
-export class Relation {
-  constructor(name) {
-    this.name = name;
-  }
-}
-
-export class Exp {
-  constructor(name) {
-    this.name = name;
-  }
-}
-
-export class Term {
-  constructor(name) {
-    this.name = name;
-  }
-}
-
-export class Factor {
   constructor(name) {
     this.name = name;
   }

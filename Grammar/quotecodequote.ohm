@@ -1,15 +1,20 @@
-quotecodequote {
+quotecodequote { 
   Program   = Block+
   Block     = Function
             | While
             | For
-            | If      --conditional
+            | If                                                                        --conditional
+            | Class
             | Statement
   Statement = Assign
             | Print
+            | ClassCall
             | FuncCall
             | Return
-            | Condition
+            | Condition 
+  Class     = class id Field? Method* kwend
+  Field     = has id (and id)* 
+  Method    = Var Params? is Block+ kwend
   Function  = function Var Params? is Block+ kwend
   Params    = of Factor (and Factor)*
   While     = loop until Condition Block* kwend
@@ -17,49 +22,58 @@ quotecodequote {
   If        = if Condition Block* kwend Elif* Else? 
   Elif      = elif Condition Block* kwend
   Else      = else Block* kwend
-  Assign    = Var is Condition
+  Assign    = Var is (Condition | ClassCall)
   Print     = output Condition
-  FuncCall  = call Var "with" Exp (and Exp )*   --withArgs
-            | call Var                          --noArgs
+  ClassCall = new id Args? 
+  ClassField= id colon id                                                             
+  FuncCall  = call Var Args?                               
+  Args      = with id as Exp (and id as Exp)*                                        
   Return    = out Condition
-  Condition = Condition ("and" | "or") Relation   --logical
+  Condition = Condition ("and" | "or") Relation                                         --logical
             | Relation
-  Relation  = Relation ("<=" | ">=" | "<" | ">" | "==" | "!=")  Exp   --binary
+  Relation  = Relation ("<=" | ">=" | "<" | ">" | "==" | "!=")  Exp                     --binary
             | Exp                                                 
-  Exp       = Exp ("+" | "-") Term    --binary
+  Exp       = Exp ("+" | "-") Term                                                      --binary
             | Term
-  Term      = Term ("*"| "/"|"^"|"%") Factor    --binary
+  Term      = Term ("*"| "/"|"^"|"%") Factor                                            --binary
             | Factor
-  Factor    = Var
+ Factor     = Var
             | number
             | "\"" (~"\\" ~"\"" ~"\n" any | escape)* "\""                               --string
             | list "[" (Factor ( "," Factor )* )? "]"                                   --list
             | map "[" ( "[" id ":" Factor "]"  ( ","  "[" id ":" Factor "]" )* )? "]"   --map
             | "(" Exp ")"                                                               --parens
-  Var       = id
+  Var       = ClassField
+            |id
   number    = digit+ ("." digit+)?
-  list      = "list" ~alnum
-  map       = "map" ~alnum
-  of        = "of" ~alnum
-  and       = "and" ~alnum
-  loop      = "loop" ~alnum
-  until     = "until" ~alnum
-  from      = "from" ~alnum
-  to        = "to" ~alnum
-  by        = "by" ~alnum
-  function  = "function" ~alnum
-  if        = "if" ~alnum
-  out       = "out:" ~alnum
-  else      = "else" ~alnum
-  elif      = "elif" ~alnum
-  is        = "is" ~alnum
-  output    = "output" ~alnum
-  kwend     = "end" ~alnum
-  keyword   = is | output | loop | until | from | to | by | kwend | function | if | map | list | "out:" | "call:" | elif
-  id        = ~keyword letter alnum*
-  call      = "call:" ~alnum
+  list      = "list" 
+  map       = "map" 
+  of        = "of" 
+  and       = "and" 
+  loop      = "loop" 
+  until     = "until"
+  from      = "from" 
+  to        = "to" 
+  by        = "by" 
+  function  = "function" 
+  if        = "if" 
+  out       = "out:" 
+  else      = "else" 
+  elif      = "elif" 
+  is        = "is" 
+  output    = "output" 
+  kwend     = "end" 
+  call      = "call:" 
+  class     = "class"
+  new       = "new"
+  has       = "has"
+  with      = "with"
+  as        = "as"
+  colon     = ":"
+  id        = ~keyword letter alnum*  
+  keyword   = is | output | loop | until | from | to | by | kwend | function | if | map | list | out | call | elif | class | has | with | as | new | colon
   space     += comment
   comment   = "!!!" (~"\n" any)* "\n"                      -- singleLine
             | "!?" (~"?!" any)* "?!"                       -- multiLine
-  escape    = "\\" ("\\" | "\"")                           -- simple
+  escape    = "\\" ("\\" | "\"")                       
 }

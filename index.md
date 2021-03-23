@@ -8,6 +8,8 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
+
+<div markdown=1 id='main'>
 ```markdown
 Syntax highlighted code block
 
@@ -25,6 +27,7 @@ Syntax highlighted code block
 
 [Link](url) and ![Image](src)
 ```
+<div/>
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 

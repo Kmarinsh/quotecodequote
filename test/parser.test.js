@@ -40,7 +40,7 @@ const source = [
 
   `
   loop i from 0 to 10 by 1
-    call x with 1 and 3
+    call: x with a as 1 and b as 3
   end
   `,
 
@@ -61,24 +61,24 @@ const source = [
    end
    `,
 
-   `
+  `
    x and y
    `,
-  
-   `
+
+  `
    x is 0
    loop until x == 5
     x is x+1
    end
    `,
-   
-   `
+
+  `
     function noArg is
       out: 5
     end
    `,
-  
-   `
+
+  `
    function hi of x and y is
       if x < y
         out: "x is less"
@@ -92,7 +92,7 @@ const source = [
     end
    `,
 
-   `
+  `
       if 5 < 3
         out: x
       end
@@ -111,87 +111,68 @@ const source = [
   loop until x>=10 or x<=10 or x==10 or x!=10 or x<10 or x>10
 	  output x
   end
+  `,
   `
-  
-  ];
+  class Point has x and y 
+	sum is 
+    	out: x+y
+    end
+    
+    distance of a and b is
+    	out: (x-a)*(y-b) 
+    end
+end
+  `,
+  `
+  new Point with x as 3 and y as 2
+  `,
+  `
+  p is new Point with x as 23 and y as 3
+  `,
+  `
+  a is p:x
+  `,
+  `
+  p:x is 2
+  `,
+  `
+  class Point has x and y end
+  `,
+];
 
-  const badSource = [`if x`, `loop`]
+const badSource = [`if x`, `loop`];
 
 const expectedAst1 = String.raw`   1 | Program names=[#2]
-   2 | Block names=#3
-   3 | Function name=#4 params=[#5] block=[#8]
-   4 | IdentifierExpression id='factorial'
-   5 | Params param=#6 params=[]
-   6 | Factor name=#7
-   7 | IdentifierExpression id='x'
-   8 | Block names=#9
-   9 | If condition=#10 body=[#35] elseifstatement=[] elsestatement=[#43]
-  10 | Condition name=#11
-  11 | BinaryExp op='or' left=#12 right=#24
-  12 | Condition name=#13
-  13 | Relation name=#14
-  14 | BinaryExp op='==' left=#15 right=#20
-  15 | Relation name=#16
-  16 | Exp name=#17
-  17 | Term name=#18
-  18 | Factor name=#19
-  19 | IdentifierExpression id='x'
-  20 | Exp name=#21
-  21 | Term name=#22
-  22 | Factor name=#23
-  23 | IdentifierExpression id='0'
-  24 | Relation name=#25
-  25 | BinaryExp op='==' left=#26 right=#31
-  26 | Relation name=#27
-  27 | Exp name=#28
-  28 | Term name=#29
-  29 | Factor name=#30
-  30 | IdentifierExpression id='x'
-  31 | Exp name=#32
-  32 | Term name=#33
-  33 | Factor name=#34
-  34 | IdentifierExpression id='1'
-  35 | Block names=#36
-  36 | Return name=#37
-  37 | Condition name=#38
-  38 | Relation name=#39
-  39 | Exp name=#40
-  40 | Term name=#41
-  41 | Factor name=#42
-  42 | IdentifierExpression id='x'
-  43 | Else body=#44
-  44 | Object body=[#45,#57,#64]
-  45 | Block names=#46
-  46 | Return name=#47
-  47 | Condition name=#48
-  48 | Relation name=#49
-  49 | Exp name=#50
-  50 | Term name=#51
-  51 | BinaryExp op='*' left=#52 right=#55
-  52 | Term name=#53
-  53 | Factor name=#54
-  54 | IdentifierExpression id='x'
-  55 | Factor name=#56
-  56 | IdentifierExpression id='call'
-  57 | Block names=#58
-  58 | Condition name=#59
-  59 | Relation name=#60
-  60 | Exp name=#61
-  61 | Term name=#62
-  62 | Factor name=#63
-  63 | IdentifierExpression id='factoral'
-  64 | Block names=#65
-  65 | Condition name=#66
-  66 | Relation name=#67
-  67 | Exp name=#68
-  68 | BinaryExp op='-' left=#69 right=#73
-  69 | Exp name=#70
-  70 | Term name=#71
-  71 | Factor name=#72
-  72 | IdentifierExpression id='x'
-  73 | Term name=#74
-  74 | Factor name=#75
-  75 | IdentifierExpression id='1'`;
+ 2 | Block statements=#3
+ 3 | Function name=#4 params=[#5] block=[#7]
+ 4 | IdentifierExpression id='factorial'
+ 5 | Params params=[#6]
+ 6 | IdentifierExpression id='x'
+ 7 | Block statements=#8
+ 8 | If condition=#9 body=[#16] elseifstatement=[] elsestatement=[#19]
+ 9 | BinaryExp op='or' left=#10 right=#13
+10 | BinaryExp op='==' left=#11 right=#12
+11 | IdentifierExpression id='x'
+12 | IdentifierExpression id='0'
+13 | BinaryExp op='==' left=#14 right=#15
+14 | IdentifierExpression id='x'
+15 | IdentifierExpression id='1'
+16 | Block statements=#17
+17 | Return name=#18
+18 | IdentifierExpression id='x'
+19 | Else body=#20
+20 | Object body=[#21,#26,#28]
+21 | Block statements=#22
+22 | Return name=#23
+23 | BinaryExp op='*' left=#24 right=#25
+24 | IdentifierExpression id='x'
+25 | IdentifierExpression id='call'
+26 | Block statements=#27
+27 | IdentifierExpression id='factoral'
+28 | Block statements=#29
+29 | BinaryExp op='-' left=#30 right=#31
+30 | IdentifierExpression id='x'
+31 | IdentifierExpression id='1'`;
 
 const expectedAst2 = String.raw`   1 | Program names=[#2]
    2 | Block names=#3
@@ -277,60 +258,57 @@ const expectedAst2 = String.raw`   1 | Program names=[#2]
   82 | Factor name=#83
   83 | IdentifierExpression id='z'`;
 
-
-  const expectedAst3 = String.raw`   1 | Program names=[#2]
-   2 | Block names=#3
-   3 | Function name=#4 params='of x and y' block=[#5,#18]
-   4 | IdentifierExpression id='average'
-   5 | Block names=#6
-   6 | VarDec name='sum' initializer=#7
-   7 | Condition name=#8
-   8 | Relation name=#9
-   9 | Exp name=#10
-  10 | BinaryExp op='+' left=#11 right=#15
-  11 | Exp name=#12
-  12 | Term name=#13
-  13 | Factor name=#14
+const expectedAst3 = String.raw`   1 | Program names=[#2]
+   2 | Block statements=#3
+   3 | Function name=#4 params=[#5] block=[#7]
+   4 | IdentifierExpression id='factorial'
+   5 | Params params=[#6]
+   6 | IdentifierExpression id='x'
+   7 | Block statements=#8
+   8 | If condition=#9 body=[#16] elseifstatement=[] elsestatement=[#19]
+   9 | BinaryExp op='or' left=#10 right=#13
+  10 | BinaryExp op='==' left=#11 right=#12
+  11 | IdentifierExpression id='x'
+  12 | IdentifierExpression id='0'
+  13 | BinaryExp op='==' left=#14 right=#15
   14 | IdentifierExpression id='x'
-  15 | Term name=#16
-  16 | Factor name=#17
-  17 | IdentifierExpression id='y'
-  18 | Block names=#19
-  19 | Return name=#20
-  20 | Condition name=#21
-  21 | Relation name=#22
-  22 | Exp name=#23
-  23 | Term name=#24
-  24 | BinaryExp op='/' left=#25 right=#28
-  25 | Term name=#26
-  26 | Factor name=#27
-  27 | IdentifierExpression id='sum'
-  28 | Factor name=#29
-  29 | IdentifierExpression id='2'`
-
+  15 | IdentifierExpression id='1'
+  16 | Block statements=#17
+  17 | Return name=#18
+  18 | IdentifierExpression id='x'
+  19 | Else body=#20
+  20 | Object body=[#21,#26,#28]
+  21 | Block statements=#22
+  22 | Return name=#23
+  23 | BinaryExp op='*' left=#24 right=#25
+  24 | IdentifierExpression id='x'
+  25 | IdentifierExpression id='call'
+  26 | Block statements=#27
+  27 | IdentifierExpression id='factoral'
+  28 | Block statements=#29
+  29 | BinaryExp op='-' left=#30 right=#31
+  30 | IdentifierExpression id='x'
+  31 | IdentifierExpression id='1'`;
 
 describe("The parser", () => {
-  for(let program of source){
-   it("can parse all the nodes", (done) => {
+  for (let program of source) {
+    it("can parse all the nodes", (done) => {
       assert.ok(parse(program));
       done();
     });
   }
 
-  for(let program of badSource){
+  for (let program of badSource) {
     it("rejects", (done) => {
-       assert.throws(() => parse(program));
-       done();
-     });
-   }
+      assert.throws(() => parse(program));
+      done();
+    });
+  }
 });
 
 describe("Direct checking Factorial AST", () => {
   it("checked directly against ast", (done) => {
-    assert.deepStrictEqual(util.format(parse(source[0])), expectedAst1);
+    assert.deepStrictEqual(util.format(parse(source[0])), expectedAst3);
     done();
   });
 });
-
-
-

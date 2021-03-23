@@ -1,8 +1,8 @@
 import util from "util";
 
 export class Program {
-  constructor(names) {
-    this.names = names;
+  constructor(blocks) {
+    this.blocks = blocks;
   }
   [util.inspect.custom]() {
     return prettied(this);
@@ -28,20 +28,20 @@ export class Field {
 }
 
 export class Method {
-  constructor(name, params, block) {
-    Object.assign(this, { name, params, block });
+  constructor(id, params, block) {
+    Object.assign(this, { id, params, block });
   }
 }
 
 export class Function {
-  constructor(name, params, block) {
-    Object.assign(this, { name, params, block });
+  constructor(id, params, block) {
+    Object.assign(this, { id, params, block });
   }
 }
 
 export class Params {
-  constructor(params) {
-    Object.assign(this, { params });
+  constructor(factors) {
+    Object.assign(this, { factors });
   }
 }
 
@@ -52,26 +52,26 @@ export class While {
 }
 
 export class For {
-  constructor(name, initial, final, increment, block) {
-    Object.assign(this, { name, initial, final, increment, block });
+  constructor(id, initial, final, increment, block) {
+    Object.assign(this, { id, initial, final, increment, block });
   }
 }
 
 export class If {
-  constructor(condition, body, elseifstatement, elsestatement) {
-    Object.assign(this, { condition, body, elseifstatement, elsestatement });
+  constructor(condition, block, elifstatement, elsestatement) {
+    Object.assign(this, { condition, block, elifstatement, elsestatement });
   }
 }
 
 export class Elif {
-  constructor(condition, body) {
-    Object.assign(this, { condition, body });
+  constructor(condition, block) {
+    Object.assign(this, { condition, block });
   }
 }
 
 export class Else {
-  constructor(body) {
-    this.body = { body };
+  constructor(block) {
+    this.block = { block };
   }
 }
 
@@ -106,8 +106,8 @@ export class Args {
 }
 
 export class Return {
-  constructor(name) {
-    this.name = name;
+  constructor(value) {
+    this.value = value;
   }
 }
 

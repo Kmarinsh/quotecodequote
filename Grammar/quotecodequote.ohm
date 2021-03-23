@@ -14,8 +14,8 @@ quotecodequote {
             | Condition 
   Class     = class id Field? Method* kwend
   Field     = has id (and id)* 
-  Method    = Var Params? is Block+ kwend
-  Function  = function Var Params? is Block+ kwend
+  Method    = id Params? is Block+ kwend
+  Function  = function id Params? is Block+ kwend
   Params    = of Factor (and Factor)*
   While     = loop until Condition Block* kwend
   For       = loop id from number to number by number Block* kwend
@@ -26,7 +26,7 @@ quotecodequote {
   Print     = output Condition
   ClassCall = new id Args? 
   ClassField= id colon id                                                             
-  FuncCall  = call Var Args?                               
+  FuncCall  = call id Args?                               
   Args      = with id as Exp (and id as Exp)*                                        
   Return    = out Condition
   Condition = Condition ("and" | "or") Relation                                         --logical

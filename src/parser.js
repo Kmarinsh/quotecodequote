@@ -7,8 +7,8 @@ const qcqGrammar = ohm.grammar(
 );
 
 const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
-  Program(body) {
-    return new ast.Program(body.ast());
+  Program(block) {
+    return new ast.Program(block.ast());
   },
   Block(statements) {
     return new ast.Block(statements.ast());

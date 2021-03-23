@@ -9,7 +9,7 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
 
-<div markdown=1 id='main'>
+
 ```markdown
 Syntax highlighted code block
 
@@ -26,6 +26,20 @@ Syntax highlighted code block
 **Bold** and _Italic_ and `Code` text
 
 [Link](url) and ![Image](src)
+```
+<div markdown=1 id='main'>
+```
+function largestNum in: x, y, z
+  if x >= y and x >= z
+     out: x
+  end
+  else if y >= x and y >= z
+     out: y
+  end
+  else
+     out: z
+  end
+end
 ```
 <div/>
 

@@ -65,8 +65,9 @@ end
       <h4 class="examplesTitles">While loop</h4>
       <pre>
         <code class="code">
-loop i from 0 to 10 by 1
-  call: average with x as 3 and y as 2+4
+x is 0
+loop until x == 5
+  x is x+1
 end
         </code>
       </pre>
@@ -87,12 +88,26 @@ end
         </pre>
     </div>
     <div class="ex4">
-      <h6 class="examplesTitles">Class Dec/Call</h6>
+      <h6 class="examplesTitles">Class Declaration</h6>
         <pre>
           <code class="code">
-            class Point has x and y end
-            ...
-            p is new Point with x as 3 and y as 5
+class Point has x and y 
+  function sum is 
+    out: x+y
+  end
+  
+  function distance of a and b is
+    out: (x-a)*(y-b) 
+  end
+end
+          </code>
+        </pre>
+    </div>
+    <div class="ex5">
+      <h7 class="examplesTitles">Class Call</h7>
+        <pre>
+          <code class="code">
+new Point with x as 3 and y as 2
           </code>
         </pre>
     </div>

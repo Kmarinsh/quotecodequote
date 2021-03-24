@@ -69,6 +69,7 @@ p {
   width: 300px;
   text-align: center;
   background-color: white;
+  font-size: 25px;
 }
 
 .explain{
@@ -88,23 +89,29 @@ p {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
-  font-size: 30px;
+  font-size: 25px;
 }
 
 .examplesTitles {
   font-size: 15px;
 }
 
-.ex1, .ex2, .ex3 {
+.ex1, .ex2 {
   display: inline-block;
   vertical-align: top;
-  width: 35%;
+  width: 10%;
+  margin-left: 425px;
 }
 
 .ex3, .ex4 {
   display: inline-block;
   vertical-align: top;
-  width: 35%;
+  width: 10%;
+  margin-left: 425px;
+}
+
+.ex5 {
+  margin-left: 690px;
 }
 
 .bottom{

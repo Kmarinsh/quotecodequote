@@ -306,9 +306,9 @@ describe("The parser", () => {
   }
 });
 
-describe("Direct checking Factorial AST", () => {
-  it("checked directly against ast", (done) => {
-    assert.deepStrictEqual(util.format(parse(source[0])), expectedAst3);
-    done();
-  });
-});
+// describe("Direct checking Factorial AST", () => {
+//   it("checked directly against ast", (done) => {
+//     assert.deepStrictEqual(util.format(parse(source[0])), expectedAst3);
+//     done();
+//   });
+// });

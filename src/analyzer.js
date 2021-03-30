@@ -94,17 +94,24 @@ class Context {
   Block(b) {
     this.analyze(b.statements);
   }
-  Assign(a) {
-    console.log("this: " + a.source.constructor.name);
-    this.analyze(a.source);
-    this.add(a.target, a);
-    this.analyze(a.target);
+  Class(c) {}
+  Field(f) {
+    f.fields = this.analyze(f.fields);
+    return f;
   }
-  Print(a) {
-    this.analyze(a.argument);
+  Method(m) {}
+  Function(d) {}
+  Params(p) {}
+  While(s) {
+    if (s.condition) {
+      this.analyze(s.block);
+    }
   }
-  IdentifierExpression(e) {
-    this.lookup(e.id);
+  For(s) {
+    check(s).isGoodForLoop();
+    s.id = new Assign(s.id, s.initial);
+    this.analyze(s.block);
+    return s;
   }
   If(s) {
     if (s.condition) {
@@ -119,28 +126,23 @@ class Context {
       throw new Error(`If statements must have a condition`);
     }
   }
-  Field(f) {
-    f.fields = this.analyze(f.fields);
-    return f;
+  Assign(a) {
+    console.log("this: " + a.source.constructor.name);
+    this.analyze(a.source);
+    this.add(a.target, a);
+    this.analyze(a.target);
   }
-  Function(d) {}
-  Params(p) {}
-  While(s) {
-    if (s.condition) {
-      this.analyze(s.block);
-    }
+  Print(a) {
+    this.analyze(a.argument);
   }
-  For(s) {
-    check(s).isGoodForLoop();
-    s.id = new Assign(s.id, s.initial);
-    this.analyze(s.block);
-    return s;
+  IdentifierExpression(e) {
+    this.lookup(e.id);
   }
   ClassCall(c) {}
   FuncCall(c) {}
-  // Args(a) {
-  //   //not sure we need this
-  // }
+  Args(a) {
+    //not sure we need this
+  }
   Return(s) {}
   BinaryExp(e) {
     this.analyze(e.left);

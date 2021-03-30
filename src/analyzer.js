@@ -4,11 +4,11 @@
 import { Assign } from "./ast.js";
 function must(condition, errorMessage) {
   if (!condition) {
-    throw new Error(errorMessage)
+    throw new Error(errorMessage);
   }
 }
 
-const check = self => ({
+const check = (self) => ({
   // isNumeric() {
   //   must(
   //     [Type.INT, Type.FLOAT].includes(self.type),
@@ -22,22 +22,25 @@ const check = self => ({
   //   )
   // },
   isGoodForLoop() {
-    must(!isNaN(parseInt(self.initial.name)), "Initial value must be a number")
-    must(!isNaN(parseInt(self.final.name)), "Initial value must be a number")
-    must(!isNaN(parseInt(self.increment.name)), "Initial value must be a number")
+    must(!isNaN(parseInt(self.initial.name)), "Initial value must be a number");
+    must(!isNaN(parseInt(self.final.name)), "Initial value must be a number");
+    must(
+      !isNaN(parseInt(self.increment.name)),
+      "Initial value must be a number"
+    );
   },
   isBoolean() {
-  //  must(self.condition instanceof Boolean, `Expected a boolean, found SOMETHING`)
+    //  must(self.condition instanceof Boolean, `Expected a boolean, found SOMETHING`)
   },
-  
+
   // isInteger() {
   //   must(self.type === Type.INT, `Expected an integer, found ${self.type.name}`)
   // },
   isInsideALoop() {
-    must(self.inLoop, "Break can only appear in a loop")
+    must(self.inLoop, "Break can only appear in a loop");
   },
   isInsideAFunction(context) {
-    must(self.function, "Return can only appear in a function")
+    must(self.function, "Return can only appear in a function");
   },
   // isCallable() {
   //   must(
@@ -46,12 +49,12 @@ const check = self => ({
   //   )
   // },
   matchParametersOf(f) {
-    check(self).match(f.params.factors)
+    check(self).match(f.params.factors);
   },
   matchFieldsOf(object) {
-    check(self).match(structType.fields.map(f => f.type))
+    check(self).match(structType.fields.map((f) => f.type));
   },
-})
+});
 
 class Context {
   constructor(context, parent = null, configuration = {}) {
@@ -62,9 +65,9 @@ class Context {
     // you were in a loop (for validating breaks and continues), and a link
     // to a parent context for static scope analysis.
     this.locals = new Map();
-    this.parent = parent
-    this.inLoop = configuration.inLoop ?? parent?.inLoop ?? false
-    this.function = configuration.forFunction ?? parent?.function ?? null
+    this.parent = parent;
+    this.inLoop = configuration.inLoop ?? parent?.inLoop ?? false;
+    this.function = configuration.forFunction ?? parent?.function ?? null;
   }
   add(name, entity) {
     if (this.locals.has(name)) {
@@ -92,6 +95,7 @@ class Context {
     this.analyze(b.statements);
   }
   Assign(a) {
+    console.log("this: " + a.source.constructor.name);
     this.analyze(a.source);
     this.add(a.target, a);
     this.analyze(a.target);
@@ -100,57 +104,48 @@ class Context {
     this.analyze(a.argument);
   }
   IdentifierExpression(e) {
-    this.lookup(e.id)
+    this.lookup(e.id);
   }
   If(s) {
-    if (s.condition){
-      this.analyze(s.block)
-      if (s.elifstatement.condition){
-        this.analyze(s.elifstatement.constructor.block)
+    if (s.condition) {
+      this.analyze(s.block);
+      if (s.elifstatement.condition) {
+        this.analyze(s.elifstatement.constructor.block);
       }
       if (s.elsestatement.block) {
-        this.analyze(s.elsestatement.constructor.block)
+        this.analyze(s.elsestatement.constructor.block);
       }
-    }
-    else {
-      throw new Error(`If statements must have a condition`)
+    } else {
+      throw new Error(`If statements must have a condition`);
     }
   }
   Field(f) {
     f.fields = this.analyze(f.fields);
     return f;
   }
-  Function(d) {
-
-  }
-  Params(p) {
-
-  }
+  Function(d) {}
+  Params(p) {}
   While(s) {
-    
+    if (s.condition) {
+      this.analyze(s.block);
+    }
   }
   For(s) {
-    check(s).isGoodForLoop()
-    s.id = new Assign(s.id, s.initial)
-    this.analyze(s.block)
-    return s
+    check(s).isGoodForLoop();
+    s.id = new Assign(s.id, s.initial);
+    this.analyze(s.block);
+    return s;
   }
-  ClassCall(c) {
-
-  }
-  FuncCall(c) {
-
-  }
+  ClassCall(c) {}
+  FuncCall(c) {}
   // Args(a) {
   //   //not sure we need this
   // }
-  Return(s) {
-
-  }
-  BinaryExpression(e) {
-    this.analyze(e.left)
-    this.analyze(e.right)
-    this.analyze(e.op)
+  Return(s) {}
+  BinaryExp(e) {
+    this.analyze(e.left);
+    this.analyze(e.right);
+    this.op = this.op;
   }
   IdentifierExpression(e) {
     return e;

@@ -9,18 +9,18 @@ import {
   Elif,
   Else,
   Assign,
-  Print,
-  Return,
-  Condition,
-  Relation,
-  Exp,
-  Term,
-  Factor,
-  BinaryExp,
-  IdentifierExpression,
+  // Print,
+  // Return,
+  // Condition,
+  // Relation,
+  // Exp,
+  // Term,
+  // Factor,
+  // BinaryExp,
+  // IdentifierExpression,
 } from "./ast.js";
 
-import * as stdlib from "./stdlib.js"
+//import * as stdlib from "./stdlib.js"
 
 function must(condition, errorMessage) {
   if (!condition) {
@@ -29,24 +29,26 @@ function must(condition, errorMessage) {
 }
 
 const check = self => ({
-  isNumeric() {
-    must(
-      [Type.INT, Type.FLOAT].includes(self.type),
-      `Expected a number, found ${self.type.name}`
-    )
-  },
-  isNumericOrString() {
-    must(
-      [Type.INT, Type.FLOAT, Type.STRING].includes(self.type),
-      `Expected a number or string, found ${self.type.name}`
-    )
-  },
+  // isNumeric() {
+  //   must(
+  //     [Type.INT, Type.FLOAT].includes(self.type),
+  //     `Expected a number, found ${self.type.name}`
+  //   )
+  // },
+  // isNumericOrString() {
+  //   must(
+  //     [Type.INT, Type.FLOAT, Type.STRING].includes(self.type),
+  //     `Expected a number or string, found ${self.type.name}`
+  //   )
+  // },
+  
   isBoolean() {
-    must(self.type === Type.BOOLEAN, `Expected a boolean, found ${self.type.name}`)
+  //  must(self.condition instanceof Boolean, `Expected a boolean, found SOMETHING`)
   },
-  isInteger() {
-    must(self.type === Type.INT, `Expected an integer, found ${self.type.name}`)
-  },
+  
+  // isInteger() {
+  //   must(self.type === Type.INT, `Expected an integer, found ${self.type.name}`)
+  // },
   isInsideALoop() {
     must(self.inLoop, "Break can only appear in a loop")
   },
@@ -59,10 +61,10 @@ const check = self => ({
   //     "Call of non-function or non-constructor"
   //   )
   // },
-  matchParametersOf(calleeType) {
-    check(self).match(calleeType.parameterTypes)
+  matchParametersOf(f) {
+    check(self).match(f.params.factors)
   },
-  matchFieldsOf(structType) {
+  matchFieldsOf(object) {
     check(self).match(structType.fields.map(f => f.type))
   },
 })
@@ -76,14 +78,17 @@ class Context {
     this.locals = new Map()
     // Whether we are in a loop, so that we know whether breaks and continues
     // are legal here
-    this.inLoop = configuration.inLoop ?? parent?.inLoop ?? false
+    // this.inLoop = configuration.inLoop ?? parent?.inLoop ?? false
+    this.inLoop = configuration.inLoop 
     // Whether we are in a function, so that we know whether a return
     // statement can appear here, and if so, how we typecheck it
-    this.function = configuration.forFunction ?? parent?.function ?? null
+    //this.function = configuration.forFunction ?? parent?.function ?? null
   }
+  
   sees(name) {
     // Search "outward" through enclosing scopes
-    return this.locals.has(name) || this.parent?.sees(name)
+    //return this.locals.has(name) || this.parent?.sees(name)
+    return this.locals.has(name) || this.parent.sees(name)
   }
   add(name, entity) {
     // No shadowing! Prevent addition if id anywhere in scope chain!
@@ -110,38 +115,36 @@ class Context {
     return this[node.constructor.name](node)
   }
   Program(p) {
-    p.statements = this.analyze(p.statements)
+    p.blocks = this.analyze(p.blocks)
     return p
   }
 
 //pretty sure we can remove these three
-  Class(c) {
+  // Class(c) {
 
-  }
+  // }
   Field(f) {
-    // f.type = this.analyze(f.type)
-    // return f
+    f.fields = this.analyze(f.fields)
+    return f
   }
-  Method(m) {
-    //
-  }
+  // Method(m) {
+  //   //
+  // }
 //--
 
   Function(d) {
-    // const f = (d.function = new Function(d.name))
-    // const childContext = this.newChild({ inLoop: false, forFunction: f})
-    // d.params = childContext.analyze(d.params)
-    // //no idea how to handle return type here
-    // // f.type = new FunctionType(
-    // //   d.parameters.map(p => p.type),
-    // //   d.returnType
-    // // )
-    // this.add(f.name, f)
-    // d.block = childContext.analyze(d.block)
-    // return d
+    const f = (d.function = new Function(d.id))
+    const childContext = this.newChild({ inLoop: false, forFunction: f})
+    d.params = childContext.analyze(d.params)
+    this.add(f.id, f)
+    d.block = childContext.analyze(d.block)
+    return d
+    
   }
   Params(p) {
-    //no idea how to do this because it takes in a list 
+    p.factors = this.analyze(p.factors)
+    this.add(p.id, p.factors)
+    return p
   }
   While(s) {
     s.condition = this.analyze(s.condition)
@@ -171,12 +174,12 @@ class Context {
   }
 
   //pretty sure we can delete these
-  Elif(s) {
+  // Elif(s) {
 
-  }
-  Else(s) {
+  // }
+  // Else(s) {
 
-  }
+  // }
   
   //this probably wont work :( (WIP)
   Assign(a) {
@@ -188,22 +191,28 @@ class Context {
   //pretty sure you can delete this
   Print(s){
     s.condition = this.analyze(s.condition)
-    check(s.condition).isNumericOrString
+    //check(s.condition).isNumericOrString
     return s
   }
   ClassCall(c){
-    c.id = this.analyze(c.id)
-    // check(c.id).isCallable()
-    c.args = this.analyze(c.args)
-    check(c.args).matchParametersOf(c.id.type)
+    // c.id = this.analyze(c.id)
+    // // check(c.id).isCallable()
+    // c.fields = this.analyze(c.fields)
+    // check(c.fields).matchParametersOf(c.id.type)
     return c
   }
   FuncCall(c){
-
+    c.id = this.analyze(c.id)
+    //Assume it is callable
+    c.params = this.analyze(c.params)
+    //Check that C params matches c.id.parameters.fields
+    //FuncCall -> mathParametersOf -> Function -> Parameters
+    check(c.params).matchParametersOf(c.id)
+    return c
   }
-  Args(a) {
-    //not sure we need this
-  }
+  // Args(a) {
+  //   //not sure we need this
+  // }
   Return(s) {
     check(this).isInsideAFunction()
     return s
@@ -231,27 +240,27 @@ class Context {
     //   check(e.left).hasSameTypeAs(e.right)
     //   e.type = Type.BOOLEAN
     // }
-    // return e
+    return e
   }
   IdentifierExpression(e) {
-
+    return e
   }
 
 }
 
 export default function analyze(node) {
   // Allow primitives to be automatically typed
-  Number.prototype.type = Type.FLOAT
-  BigInt.prototype.type = Type.INT
-  Boolean.prototype.type = Type.BOOLEAN
-  String.prototype.type = Type.STRING
-  Type.prototype.type = Type.TYPE
+  // Number.prototype.type = Type.FLOAT
+  // BigInt.prototype.type = Type.INT
+  // Boolean.prototype.type = Type.BOOLEAN
+  // String.prototype.type = Type.STRING
+  // Type.prototype.type = Type.TYPE
   const initialContext = new Context()
 
   // Add in all the predefined identifiers from the stdlib module
-  const library = { ...stdlib.types, ...stdlib.constants, ...stdlib.functions }
-  for (const [name, type] of Object.entries(library)) {
-    initialContext.add(name, type)
-  }
+  //const library = { ...stdlib.types, ...stdlib.constants, ...stdlib.functions }
+  // for (const [name, type] of Object.entries(library)) {
+  //   initialContext.add(name, type)
+  // }
   return initialContext.analyze(node)
 }

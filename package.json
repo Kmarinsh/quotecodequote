@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Compilers Project",
   "main": "index.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "test": "c8 node_modules/.bin/mocha",
     "lint": "eslint ."

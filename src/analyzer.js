@@ -9,15 +9,10 @@ import {
   Elif,
   Else,
   Assign,
-  // Print,
-  // Return,
-  // Condition,
-  // Relation,
-  // Exp,
-  // Term,
-  // Factor,
-  // BinaryExp,
-  // IdentifierExpression,
+  Print,
+  Return,
+  BinaryExp,
+  IdentifierExpression,
 } from "./ast.js";
 
 //import * as stdlib from "./stdlib.js"
@@ -78,17 +73,16 @@ class Context {
     this.locals = new Map()
     // Whether we are in a loop, so that we know whether breaks and continues
     // are legal here
-    // this.inLoop = configuration.inLoop ?? parent?.inLoop ?? false
-    this.inLoop = configuration.inLoop 
+    this.inLoop = configuration.inLoop ?? parent?.inLoop ?? false
     // Whether we are in a function, so that we know whether a return
     // statement can appear here, and if so, how we typecheck it
-    //this.function = configuration.forFunction ?? parent?.function ?? null
+
+    this.function = configuration.forFunction ?? parent?.function ?? null
   }
   
   sees(name) {
     // Search "outward" through enclosing scopes
-    //return this.locals.has(name) || this.parent?.sees(name)
-    return this.locals.has(name) || this.parent.sees(name)
+    return this.locals.has(name) || this.parent?.sees(name)
   }
   add(name, entity) {
     // No shadowing! Prevent addition if id anywhere in scope chain!
@@ -115,7 +109,7 @@ class Context {
     return this[node.constructor.name](node)
   }
   Program(p) {
-    p.blocks = this.analyze(p.blocks)
+    p.statements = this.analyze(p.statements)
     return p
   }
 
@@ -183,8 +177,13 @@ class Context {
   
   //this probably wont work :( (WIP)
   Assign(a) {
+    // a.source = this.analyze(a.source)
+    // a.target = new Assign(a.target, a.source)
+    // return a
+
     a.source = this.analyze(a.source)
-    a.target = new Assign(a.target, a.source)
+    // d.target = new Variable(d.target)
+    this.add(a.target, a.source)
     return a
   }
 

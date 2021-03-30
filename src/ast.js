@@ -120,8 +120,8 @@ export class BinaryExp {
 
 //covers all names leading directly to another class
 export class IdentifierExpression {
-  constructor(id) {
-    this.id = id;
+  constructor(name) {
+    this.name = name;
   }
 }
 

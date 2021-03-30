@@ -33,29 +33,6 @@ p {
   background-color: white;
 }
 
-/*
-.column {
-  float: left;
-  width: 50%;
-}
-
-
-
-.row {
-  column-count: 2;
-  column-gap: 100px;
-}
-
-
-
- Clear floats after the columns 
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-*/
-
 .p1, .p2 {display: inline-flex;}
 
 

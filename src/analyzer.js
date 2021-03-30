@@ -127,7 +127,6 @@ class Context {
     }
   }
   Assign(a) {
-    console.log("this: " + a.source.constructor.name);
     this.analyze(a.source);
     this.add(a.target, a);
     this.analyze(a.target);

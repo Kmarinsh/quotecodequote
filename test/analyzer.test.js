@@ -6,14 +6,19 @@ import * as ast from "../src/ast.js"
 
 // // Programs that are semantically correct
 const semanticChecks = [
-  ["variable declarations", 'x is 3'],
-  //["basic functions", "function f of x and y and z is print x+y+z end"],
-  //["if statments", "if 2 < 3 print 3 end "],
+  ["print statements", `output "hello world"`],
+  ["basic if statments", `if 2 < 3 output 3 end `],
+  ["if else statments", `if 2 < 3 output 3 end else output 4 end `],
+  ["if ifelse else", `if 2 < 3 output 3 end elif x>5 output 2 end else output 1 end `],
+  ["if ifelse else", `if 2 < 3 output 3 end elif x>5 output 2 end else output 1 end `],
+  ["for loops", `loop x from 1 to 20 by 2 output x end `],
+  //["basic functions", "function f of x and y and z is print x+y+z end"]
+  ["variable declarations", 'x is 3']
 ]
 
 // // Programs that are syntactically correct but have semantic errors
 const semanticErrors = [
-  ["Non-boolean if statements", "if y+1 print 3 end", /Fields must be distinct/],
+  // ["Semantically incorrect for loop", `loop x from 'yes' to 'no' by 'idk' end` , /Initial value must be a number/],
 ]
 
 // // Test cases for expected semantic graphs after processing the AST. In general

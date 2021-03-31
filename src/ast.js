@@ -33,6 +33,12 @@ export class Method {
   }
 }
 
+export class ClassAttr {
+  constructor(source, method, params) {
+    Object.assign(this, { source, method, params });
+  }
+}
+
 export class Function {
   constructor(id, params, block) {
     Object.assign(this, { id, params, block });

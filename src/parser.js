@@ -23,7 +23,9 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
   Method(name, params, _is, body, _end) {
     return new ast.Method(name.ast(), params.ast(), body.ast());
   },
-
+  ClassAttr(source, _colon, method, params) {
+    return new ast.ClassAttr(source.ast(),method.ast(),...params.ast())
+  },
   Function(_func, name, params, _is, block, _end) {
     return new ast.Function(name.ast(), params.ast(), block.ast());
   },

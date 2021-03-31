@@ -10,81 +10,21 @@ function must(condition, errorMessage) {
 }
 
 const check = (self) => ({
-  // isNumeric() {
-  //   must(
-  //     [Type.INT, Type.FLOAT].includes(self.type),
-  //     `Expected a number, found ${self.type.name}`
-  //   )
-  // },
-  // isNumericOrString() {
-  //   must(
-  //     [Type.INT, Type.FLOAT, Type.STRING].includes(self.type),
-  //     `Expected a number or string, found ${self.type.name}`
-  //   )
-  // },
-  isBoolean() {
-    //  must(self.condition instanceof Boolean, `Expected a boolean, found SOMETHING`)
-  },
-
-  // isInteger() {
-  //   must(self.type === Type.INT, `Expected an integer, found ${self.type.name}`)
-  // },
-  isInsideALoop() {
-    must(self.inLoop, "Break can only appear in a loop");
-  },
-  isInsideAFunction(context) {
-    must(self.function, "Return can only appear in a function");
-  },
-  isCallable() {
-    must(
-      self.constructor === StructDeclaration ||
-        self.type.constructor == FunctionType,
-      "Call of non-function or non-constructor"
-    );
-  },
   matchParametersOf(f) {
-    // check(self).match(f.params.factors);
     must(self.length == f.length, "Calls must have the same number of parameters as the callee")
     for(let i=0; i < f.length; i++) {
       must( self[i].id == f[i].id, "Arguments of calls must match that of the callee")
     }
-    //must( self == f , "Arguments of function call must match that of the function")
-  },
-  matchFieldsOf(object) {
-    check(self).match(structType.fields.map((f) => f.type));
-  },
+  }
 });
 
 class Context {
   constructor(context, parent = null, configuration = {}) {
-    // Currently, the only analysis context needed is the set of declared
-    // variables. We store this as a map, indexed by the variable name,
-    // for efficient lookup. More complex languages will a lot more here,
-    // such as the current function (to validate return statements), whether
-    // you were in a loop (for validating breaks and continues), and a link
-    // to a parent context for static scope analysis.
     this.locals = new Map();
-    this.parent = parent;
-    this.inLoop = configuration.inLoop ?? parent?.inLoop ?? false;
-    this.function = configuration.forFunction ?? parent?.function ?? null;
   }
   add(name, entity) {
-    // if (this.locals.has(name)) {
-    //   throw new Error(`Identifier ${name} already declared`);
-    // }
     this.locals.set(name, entity);
   }
-  lookup(name) {
-    const entity = this.locals.get(name);
-    if (entity) {
-      return entity;
-    }
-    throw new Error(`Identifier ${name} not declared`);
-  }
-
-  // newChild(configuration = {}) {
-  //   return new Context(this, configuration)
-  // }
   analyze(node) {
     return this[node.constructor.name](node);
   }
@@ -109,24 +49,21 @@ class Context {
         check(c.args[0].id).matchParametersOf(value[0].fields)
       }
     } 
-    
     this.locals.forEach(checkArgs)
   }
   Method(m) {
     this.add(m.id, m.params)
     this.analyze(m.block)
-  }
+  } 
   ClassAttr(c) {
-    console.log("this: "+c)
     function checkArgs(value, key, map) {
-      if (key.id == c.id.id) {
-        check(c.args[0].id).matchParametersOf(value[0].factors)
+      if (key.id == c.method.id) {
+          check(c.params.id).matchParametersOf(value[0].factors)
       }
     }
-
+    console.log(c)
     this.locals.forEach(checkArgs)
   }
-
   Function(d) {
     this.add(d.id, d.params)
     this.analyze(d.block);
@@ -139,7 +76,6 @@ class Context {
     }     
     this.locals.forEach(checkArgs)
   }
-  // Params(p) {}
   While(s) {
     if (s.condition) {
       this.analyze(s.block);
@@ -153,14 +89,13 @@ class Context {
   If(s) {
     if (s.condition) {
       this.analyze(s.block);
-      if (s.elifstatement.condition) {
-        this.analyze(s.elifstatement.constructor.block);
+      if (s.elifstatement.length > 0){
+        console.log(s.elifstatement)
+        this.analyze(s.elifstatement[0].block);
       }
-      if (s.elsestatement.block) {
-        this.analyze(s.elsestatement.constructor.block);
+      if (s.elsestatement.length > 0) {
+        this.analyze(s.elsestatement[0].block.block);
       }
-    } else {
-      throw new Error(`If statements must have a condition`);
     }
   }
   Assign(a) {
@@ -170,12 +105,6 @@ class Context {
   }
   Print(a) {
     this.analyze(a.argument);
-  }
-  IdentifierExpression(e) {
-    this.lookup(e.id);
-  }
-  Args(a) {
-    //not sure we need this
   }
   Return(s) {
     return s

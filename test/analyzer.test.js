@@ -13,10 +13,6 @@ const semanticChecks = [
     "if ifelse else",
     `if 2 < 3 output 3 end elif x>5 output 2 end else output 1 end `,
   ],
-  [
-    "if ifelse else",
-    `if 2 < 3 output 3 end elif x>5 output 2 end else output 1 end `,
-  ],
   ["for loops", `loop x from 1 to 20 by 2 output x end `],
   ["while loops", `loop until i==100 i is i+1 output i end`],
   //["basic functions", "function f of x and y and z is print x+y+z end"]
@@ -41,23 +37,23 @@ const semanticChecks = [
   ["class declarations with paramaters", `
     class Point has x and y 
       sum is 
-          out x+y
-        end
+        out x+y
+      end
         
-        distance of a and b is
-          out (x-a)*(y-b) 
-        end
+      distance of a and b is
+        out (x-a)*(y-b) 
+      end
     end
     `],
   ["class calls", `
-    class Point has x and y 
+    ass Point has x and y 
       sum is 
-          out x+y
-        end
+        out x+y
+      end
         
-        distance of a and b is
-          out (x-a)*(y-b) 
-        end
+      distance of a and b is
+        out (x-a)*(y-b) 
+      end
     end
     p is new Point with x as 3 and y as 2
     `],
@@ -73,9 +69,10 @@ const semanticChecks = [
 end
 
 p is new Point with x as 4 and y as 53
-
-f is p:distance with x as 3 and b as 4
+p:x is 4
+f is p:distance with a as 3 and b as 4
   `]
+  
 ];
 
 // // Programs that are syntactically correct but have semantic errors
@@ -120,3 +117,10 @@ describe("The analyzer", () => {
   //     })
   //   }
 });
+
+
+// a is p:x
+// Class Point has x and y asdj end
+
+// p is new point with x as 2 and y as 4
+// p:x is 4

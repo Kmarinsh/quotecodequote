@@ -37,15 +37,17 @@ quotecodequote {
             | Term
   Term      = Term ("*"| "/"|"^"|"%") Factor                                            --binary
             | Factor
- Factor     = Var
+ Factor     =
+ 			 FuncCall
+            | ClassAttr
+            | Var
             | number
             | "\"" (~"\\" ~"\"" ~"\n" any | escape)* "\""                               --string
             | list "[" (Factor ( "," Factor )* )? "]"                                   --list
             | map "[" ( "[" id ":" Factor "]"  ( ","  "[" id ":" Factor "]" )* )? "]"   --map
             | "(" Exp ")"                                                               --parens
-            | FuncCall
-  Var       = ClassAttr
-            | id
+  Var       =  ClassAttr
+  | id
   number    = ("-")? digit+ ("." digit+)?
   list      = "list" 
   map       = "map" 

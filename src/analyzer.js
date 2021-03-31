@@ -1,6 +1,7 @@
 // Semantic Analyzer
 //
 // Analyzes the AST by looking for semantic errors and resolving references.
+import { assert } from "node:console";
 import { Assign } from "./ast.js";
 function must(condition, errorMessage) {
   if (!condition) {
@@ -42,7 +43,8 @@ const check = (self) => ({
     );
   },
   matchParametersOf(f) {
-    check(self).match(f.params.factors);
+    // check(self).match(f.params.factors);
+    must( self == f , "Arguments of function call must match that of the function")
   },
   matchFieldsOf(object) {
     check(self).match(structType.fields.map((f) => f.type));
@@ -63,9 +65,9 @@ class Context {
     this.function = configuration.forFunction ?? parent?.function ?? null;
   }
   add(name, entity) {
-    if (this.locals.has(name)) {
-      throw new Error(`Identifier ${name} already declared`);
-    }
+    // if (this.locals.has(name)) {
+    //   throw new Error(`Identifier ${name} already declared`);
+    // }
     this.locals.set(name, entity);
   }
   lookup(name) {
@@ -94,11 +96,19 @@ class Context {
   }
   Method(m) {}
   Function(d) {
-    this.analyze(d.id);
-    this.analyze(d.params);
+    if (d.params) {
+      this.analyze(d.params);
+    }
+    this.add(d.id, d.params)
     this.analyze(d.block);
   }
-  Params(p) {}
+  FuncCall(c) {
+    check(c.args).matchParametersOf(this.get(c.id))
+  }
+  ClassAttr(c) {
+    check(c.args)
+  }
+  // Params(p) {}
   While(s) {
     if (s.condition) {
       this.analyze(s.block);
@@ -135,7 +145,6 @@ class Context {
     this.lookup(e.id);
   }
   ClassCall(c) {}
-  FuncCall(c) {}
   Args(a) {
     //not sure we need this
   }

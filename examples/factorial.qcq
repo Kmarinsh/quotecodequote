@@ -1,8 +1,7 @@
-function factorial of x is
+  function factorial of x is
     if x == 0 or x == 1
-        out: x
+      out x
     end
     else
-        out: x * call factoral x-1
+      out x * call factoral x-1
     end
-end

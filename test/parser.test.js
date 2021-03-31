@@ -7,29 +7,29 @@ const source = [
   `
   function factorial of x is
     if x == 0 or x == 1
-      out: x
+      out x
     end
     else
-      out: x * call factoral x-1
+      out x * call factoral x-1
     end
   end
   `,
 
   `function average of x and y is
 	  sum is x+y
-	  out: sum/2
+	  out sum/2
    end`,
 
   `
   function largestNum of x and y and z is
       if x >= y and x >= z
-          out: x
+          out x
       end
       elif y >= x and y >= z
-          out: y
+          out y
       end
       else
-          out: z
+          out z
       end
   end
   `,
@@ -40,7 +40,7 @@ const source = [
 
   `
   loop i from 0 to 10 by 1
-    call: x with a as 1 and b as 3
+    call x with a as 1 and b as 3
   end
   `,
 
@@ -74,30 +74,30 @@ const source = [
 
   `
     function noArg is
-      out: 5
+      outs 5
     end
    `,
 
   `
    function hi of x and y is
       if x < y
-        out: "x is less"
+        out "x is less"
       end
       elif y > x
-        out: "y is less"
+        out "y is less"
       end
       else
-        out: "equal"
+        out "equal"
       end
     end
    `,
 
   `
       if 5 < 3
-        out: x
+        out x
       end
       elif 3 > 4
-        out: y
+        out y
       end
    `,
   `
@@ -115,14 +115,14 @@ const source = [
   `
   class Point has x and y 
 	sum is 
-    	out: x+y
+    	out x+y
     end
     
     distance of a and b is
-    	out: (x-a)*(y-b) 
+    	out (x-a)*(y-b) 
     end
 end
-  `,
+`,
   `
   new Point with x as 3 and y as 2
   `,
@@ -130,7 +130,7 @@ end
   p is new Point with x as 23 and y as 3
   `,
   `
-  a is p:x
+  a is p:x with y as 2 and z as 3
   `,
   `
   p:x is 2

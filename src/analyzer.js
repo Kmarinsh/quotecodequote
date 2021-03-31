@@ -44,7 +44,11 @@ const check = (self) => ({
   },
   matchParametersOf(f) {
     // check(self).match(f.params.factors);
-    must( self == f , "Arguments of function call must match that of the function")
+    must(self.length == f.length, "Calls must have the same number of parameters as the callee")
+    for(let i=0; i < f.length; i++) {
+      must( self[i].id == f[i].id, "Arguments of calls must match that of the callee")
+    }
+    //must( self == f , "Arguments of function call must match that of the function")
   },
   matchFieldsOf(object) {
     check(self).match(structType.fields.map((f) => f.type));
@@ -77,6 +81,7 @@ class Context {
     }
     throw new Error(`Identifier ${name} not declared`);
   }
+
   // newChild(configuration = {}) {
   //   return new Context(this, configuration)
   // }
@@ -93,34 +98,46 @@ class Context {
     f.fields = this.analyze(f.fields);
     return f;
   }
-  Class(c) {}
-  Method(m) {}
+  Class(c) {
+    this.add(c.id, c.fields)
+    this.analyze(c.methods)
+  }
+  ClassCall(c) {
+    //c.args = this.get(field)
+    function checkArgs(value, key, map) {
+      if (key.id == c.id.id) {
+        check(c.args[0].id).matchParametersOf(value[0].fields)
+      }
+    } 
+    
+    this.locals.forEach(checkArgs)
+  }
+  Method(m) {
+    this.add(m.id, m.params)
+    this.analyze(m.block)
+  }
+  ClassAttr(c) {
+    console.log("this: "+c)
+    function checkArgs(value, key, map) {
+      if (key.id == c.id.id) {
+        check(c.args[0].id).matchParametersOf(value[0].factors)
+      }
+    }
+
+    this.locals.forEach(checkArgs)
+  }
+
   Function(d) {
-    // if (d.params) {
-    //   this.analyze(d.params);
-    // }
     this.add(d.id, d.params)
     this.analyze(d.block);
   }
   FuncCall(c) {
-    console.log(this.locals)
-    console.log("args: "+c.args)
-    console.log("id: " + c.id)
-    console.log("=====================")
-    console.log("get locals: "+ this.locals)
-    
     function checkArgs(value, key, map) {
-      console.log("aaaa:" + key.id + "BBBBB:" + value)
-      console.log(c.args==value)
-      if (key.id == c.id) {
-        check(c.args).matchParametersOf(value)
+      if (key.id == c.id.id) {
+        check(c.args[0].id).matchParametersOf(value[0].factors)
       }
-    } 
+    }     
     this.locals.forEach(checkArgs)
-
-  }
-  ClassAttr(c) {
-    check(c.args)
   }
   // Params(p) {}
   While(s) {
@@ -157,7 +174,6 @@ class Context {
   IdentifierExpression(e) {
     this.lookup(e.id);
   }
-  ClassCall(c) {}
   Args(a) {
     //not sure we need this
   }

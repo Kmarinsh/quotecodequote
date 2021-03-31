@@ -38,13 +38,44 @@ const semanticChecks = [
   end
   avg is call average with x as 2 and y as 4`],
   // ["function calls with parametes", ``]
-  ["SHOULD NOT WORK", `
-  function average of x and y is
-    sum is x+y
-    out sum/2
-  end
-  avg is call average with yasd as 2 and xasdasd as 4`],
+  ["class declarations with paramaters", `
+    class Point has x and y 
+      sum is 
+          out x+y
+        end
+        
+        distance of a and b is
+          out (x-a)*(y-b) 
+        end
+    end
+    `],
+  ["class calls", `
+    class Point has x and y 
+      sum is 
+          out x+y
+        end
+        
+        distance of a and b is
+          out (x-a)*(y-b) 
+        end
+    end
+    p is new Point with x as 3 and y as 2
+    `],
+  ["method calls", `
+  class Point has x and y 
+	sum is 
+    	out x+y
+    end
+    
+    distance of a and b is
+    	out (x-a)*(y-b) 
+    end
+end
 
+p is new Point with x as 4 and y as 53
+
+f is p:distance with x as 3 and b as 4
+  `]
 ];
 
 // // Programs that are syntactically correct but have semantic errors
@@ -55,8 +86,21 @@ const semanticErrors = [
     sum is x+y
     out sum/2
   end
-  avg is call average with yasd as 2 and xasdasd as 4`, /Arguments of function call must match that of the function/],
-];
+  avg is call average with yasd as 2 and xasdasd as 4`, /Arguments of calls must match that of the callee/],
+   [" improper class calls", `
+   class Point has x and y 
+   sum is 
+       out x+y
+     end
+     
+     distance of a and b is
+       out (x-a)*(y-b) 
+     end
+ end
+ 
+ p is new Point with ajksd as 3 and ioupo as 2
+    `, /Arguments of calls must match that of the callee/],
+]
 
 
 describe("The analyzer", () => {

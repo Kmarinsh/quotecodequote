@@ -97,7 +97,6 @@ class Context {
     this.locals.forEach(findSource)
     this.locals.forEach(findLocal)
     this.locals.forEach(checkAttribute)
-
     must(exist>=1, `Class does not have attribute`)
     this.locals.forEach(checkArgs)
   }

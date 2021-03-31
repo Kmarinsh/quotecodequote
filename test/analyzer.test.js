@@ -132,7 +132,8 @@ class Point has x and y
 end
 
 p is new Point with x as 4 and y as 53
-f is p:distance with a as 3 and b as 4`]
+f is p:distance with a as 3 and b as 4`],
+
   
 ];
 
@@ -195,7 +196,20 @@ const semanticErrors = [
       end
       p is new Apple with x as 3 and y as 2
       `, /Class has not been declared/],
+  ["improper class properties",`
+  class Point has x and y 
+    sum is 
+      out x+y
+    end
       
+    distance of a and b is
+      out (x-a)*(y-b) 
+    end
+  end
+  
+  p is new Point with x as 4 and y as 53
+  f is p:o with a as 3 and b as 4
+  `, /Class does not have attribute/]
       
 ]
 

@@ -5,3 +5,4 @@
     else
       out x * call factoral x-1
     end
+end

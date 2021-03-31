@@ -15,7 +15,8 @@ const check = (self) => ({
     for(let i=0; i < f.length; i++) {
       must( self[i].id == f[i].id, "Arguments of calls must match that of the callee")
     }
-  }
+  },
+
 });
 
 class Context {
@@ -34,21 +35,26 @@ class Context {
   Block(b) {
     this.analyze(b.statements);
   }
-  Field(f) {
-    f.fields = this.analyze(f.fields);
-    return f;
-  }
+
   Class(c) {
     this.add(c.id, c.fields)
     this.analyze(c.methods)
   }
   ClassCall(c) {
-    //c.args = this.get(field)
+    let exist=0
+    function checkClasses(value, key, map, ) {
+      if (key.id == c.id.id) {
+          exist++
+      }
+    }
     function checkArgs(value, key, map) {
       if (key.id == c.id.id) {
         check(c.args[0].id).matchParametersOf(value[0].fields)
       }
     } 
+    this.locals.forEach(checkClasses)
+    must(exist>=1, "Class has not been declared")
+
     this.locals.forEach(checkArgs)
   }
   Method(m) {
@@ -56,12 +62,43 @@ class Context {
     this.analyze(m.block)
   } 
   ClassAttr(c) {
+    let exist=0
+    let sourceValue
+    let localValue
+    function checkAttribute(value, key, map, ) {
+      if (key.id == c.method.id ) {
+          exist++
+      }      
+      for(let i=0; i<localValue[0].fields.length; i++){
+        if (localValue[0].fields[i].id == c.params?.id[0].id) {
+          exist++
+        }
+        if (localValue[0].fields[i].id == c.method?.id) {
+          exist++
+        }
+      }
+    }
     function checkArgs(value, key, map) {
       if (key.id == c.method.id) {
           check(c.params.id).matchParametersOf(value[0].factors)
       }
     }
-    console.log(c)
+
+    function findSource(value, key, map) {
+      if (key.id == c.source.id) {
+        sourceValue = value
+      }
+    }
+    function findLocal(value, key, map) {
+      if (sourceValue?.source.id.id == key.id) {
+        localValue = value
+      }
+    }
+    this.locals.forEach(findSource)
+    this.locals.forEach(findLocal)
+    this.locals.forEach(checkAttribute)
+
+    must(exist>=1, `Class does not have attribute`)
     this.locals.forEach(checkArgs)
   }
   Function(d) {
@@ -90,7 +127,6 @@ class Context {
     if (s.condition) {
       this.analyze(s.block);
       if (s.elifstatement.length > 0){
-        console.log(s.elifstatement)
         this.analyze(s.elifstatement[0].block);
       }
       if (s.elsestatement.length > 0) {

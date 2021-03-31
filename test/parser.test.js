@@ -161,16 +161,17 @@ const expectedAst3 = String.raw`   1 | Program blocks=[#2]
   17 | Return value=[#18]
   18 | IdentifierExpression id='x'
   19 | Else block=#20
-  20 | Object block=[#21,#26]
+  20 | Object block=[#21,#27]
   21 | Block statements=#22
   22 | Return value=[#23]
   23 | BinaryExp op='*' left=#24 right=#25
   24 | IdentifierExpression id='x'
-  25 | IdentifierExpression id='call factoral'
-  26 | Block statements=#27
-  27 | BinaryExp op='-' left=#28 right=#29
-  28 | IdentifierExpression id='x'
-  29 | IdentifierExpression id='1'`;
+  25 | FuncCall id=#26 args=[]
+  26 | IdentifierExpression id='factoral'
+  27 | Block statements=#28
+  28 | BinaryExp op='-' left=#29 right=#30
+  29 | IdentifierExpression id='x'
+  30 | IdentifierExpression id='1'`;
 
 describe("The parser", () => {
   for (let program of source) {
@@ -188,9 +189,9 @@ describe("The parser", () => {
   }
 });
 
-// describe("Direct checking Factorial AST", () => {
-//   it("checked directly against ast", (done) => {
-//     assert.equal(util.format(parse(source[0])).trim(), expectedAst3.trim());
-//     done();
-//   });
-// });
+describe("Direct checking Factorial AST", () => {
+  it("checked directly against ast", (done) => {
+    assert.equal(util.format(parse(source[0])).trim(), expectedAst3.trim());
+    done();
+  });
+});

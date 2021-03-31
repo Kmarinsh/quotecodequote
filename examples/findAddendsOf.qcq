@@ -1,6 +1,6 @@
 function finAddendsOf in: nums, target
     if length(nums) == 2
-        out: []
+        out []
     ans is list
     hashtable is map
     loop i from 0 to length(nums) by 1
@@ -11,4 +11,4 @@ function finAddendsOf in: nums, target
             break
         hashtable[nums[i]] is if
     end
-    out: ans
+    out ans

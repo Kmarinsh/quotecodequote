@@ -1,11 +1,11 @@
 function largestNum of x and y and z is
     if x >= y and x >= z
-        out: x
+        out x
     end
     elif y >= x and y >= z
-        out: y
+        out y
     end
     else
-        out: z
+        out z
     end
 end

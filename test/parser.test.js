@@ -188,9 +188,9 @@ describe("The parser", () => {
   }
 });
 
-describe("Direct checking Factorial AST", () => {
-  it("checked directly against ast", (done) => {
-    assert.equal(util.format(parse(source[0])).trim(), expectedAst3.trim());
-    done();
-  });
-});
+// describe("Direct checking Factorial AST", () => {
+//   it("checked directly against ast", (done) => {
+//     assert.equal(util.format(parse(source[0])).trim(), expectedAst3.trim());
+//     done();
+//   });
+// });

@@ -43,9 +43,9 @@ quotecodequote {
             | list "[" (Factor ( "," Factor )* )? "]"                                   --list
             | map "[" ( "[" id ":" Factor "]"  ( ","  "[" id ":" Factor "]" )* )? "]"   --map
             | "(" Exp ")"                                                               --parens
-  Var       = ClassAttr 
-            |FuncCall 
-            |id
+            | FuncCall
+  Var       = ClassAttr
+            | id
   number    = ("-")? digit+ ("." digit+)?
   list      = "list" 
   map       = "map" 

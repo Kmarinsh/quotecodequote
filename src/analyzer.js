@@ -89,11 +89,11 @@ class Context {
   Block(b) {
     this.analyze(b.statements);
   }
-  Class(c) {}
   Field(f) {
     f.fields = this.analyze(f.fields);
     return f;
   }
+  Class(c) {}
   Method(m) {}
   Function(d) {
     // if (d.params) {
@@ -103,9 +103,21 @@ class Context {
     this.analyze(d.block);
   }
   FuncCall(c) {
-    console.log(c.args)
-    console.log(this.get(c.id))
-    check(c.args).matchParametersOf(this.get(c.id))
+    console.log(this.locals)
+    console.log("args: "+c.args)
+    console.log("id: " + c.id)
+    console.log("=====================")
+    console.log("get locals: "+ this.locals)
+    
+    function checkArgs(value, key, map) {
+      console.log("aaaa:" + key.id + "BBBBB:" + value)
+      console.log(c.args==value)
+      if (key.id == c.id) {
+        check(c.args).matchParametersOf(value)
+      }
+    } 
+    this.locals.forEach(checkArgs)
+
   }
   ClassAttr(c) {
     check(c.args)
@@ -149,7 +161,9 @@ class Context {
   Args(a) {
     //not sure we need this
   }
-  Return(s) {}
+  Return(s) {
+    return s
+  }
   BinaryExp(e) {
     this.analyze(e.left);
     this.analyze(e.right);

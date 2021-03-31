@@ -21,14 +21,6 @@ const check = (self) => ({
   //     `Expected a number or string, found ${self.type.name}`
   //   )
   // },
-  isGoodForLoop() {
-    must(!isNaN(parseInt(self.initial.name)), "Initial value must be a number");
-    must(!isNaN(parseInt(self.final.name)), "Initial value must be a number");
-    must(
-      !isNaN(parseInt(self.increment.name)),
-      "Initial value must be a number"
-    );
-  },
   isBoolean() {
     //  must(self.condition instanceof Boolean, `Expected a boolean, found SOMETHING`)
   },
@@ -42,12 +34,13 @@ const check = (self) => ({
   isInsideAFunction(context) {
     must(self.function, "Return can only appear in a function");
   },
-  // isCallable() {
-  //   must(
-  //     self.constructor === StructDeclaration || self.type.constructor == FunctionType,
-  //     "Call of non-function or non-constructor"
-  //   )
-  // },
+  isCallable() {
+    must(
+      self.constructor === StructDeclaration ||
+        self.type.constructor == FunctionType,
+      "Call of non-function or non-constructor"
+    );
+  },
   matchParametersOf(f) {
     check(self).match(f.params.factors);
   },
@@ -100,7 +93,11 @@ class Context {
     return f;
   }
   Method(m) {}
-  Function(d) {}
+  Function(d) {
+    this.analyze(d.id);
+    this.analyze(d.params);
+    this.analyze(d.block);
+  }
   Params(p) {}
   While(s) {
     if (s.condition) {
@@ -108,7 +105,6 @@ class Context {
     }
   }
   For(s) {
-    check(s).isGoodForLoop();
     s.id = new Assign(s.id, s.initial);
     this.analyze(s.block);
     return s;
@@ -127,6 +123,7 @@ class Context {
     }
   }
   Assign(a) {
+    console.log(this);
     this.analyze(a.source);
     this.add(a.target, a);
     this.analyze(a.target);

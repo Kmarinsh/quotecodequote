@@ -77,8 +77,8 @@ export class Else {
 
 export class Assign {
   constructor(target, source) {
-    this.target = target
-    this.source = source
+    this.target = target;
+    this.source = source;
     Object.assign(this, { target, source });
   }
 }
@@ -123,7 +123,7 @@ export class BinaryExp {
 //covers all names leading directly to another class
 export class IdentifierExpression {
   constructor(id) {
-    this.name = id;
+    this.id = id;
   }
 }
 

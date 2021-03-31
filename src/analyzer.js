@@ -96,13 +96,15 @@ class Context {
   }
   Method(m) {}
   Function(d) {
-    if (d.params) {
-      this.analyze(d.params);
-    }
+    // if (d.params) {
+    //   this.analyze(d.params);
+    // }
     this.add(d.id, d.params)
     this.analyze(d.block);
   }
   FuncCall(c) {
+    console.log(c.args)
+    console.log(this.get(c.id))
     check(c.args).matchParametersOf(this.get(c.id))
   }
   ClassAttr(c) {
@@ -133,7 +135,6 @@ class Context {
     }
   }
   Assign(a) {
-    console.log(this);
     this.analyze(a.source);
     this.add(a.target, a);
     this.analyze(a.target);

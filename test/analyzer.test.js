@@ -22,19 +22,40 @@ const semanticChecks = [
   //["basic functions", "function f of x and y and z is print x+y+z end"]
   ["variable declarations", "x is 3"],
   ["variable declarations", "x is y+3"],
-  //["function declarations", ``],
+  ["function declarations", `
+    function hello is
+        output "hello"
+      end`],
   ["function declarations with paramaters", `
     function average of x and y is
 	    sum is x+y
 	    out sum/2
     end`],
-  // ["function calls", ``],
+  ["function calls", `
+  function average of x and y is
+    sum is x+y
+    out sum/2
+  end
+  avg is call average with x as 2 and y as 4`],
   // ["function calls with parametes", ``]
+  ["SHOULD NOT WORK", `
+  function average of x and y is
+    sum is x+y
+    out sum/2
+  end
+  avg is call average with yasd as 2 and xasdasd as 4`],
+
 ];
 
 // // Programs that are syntactically correct but have semantic errors
 const semanticErrors = [
   // ["Semantically incorrect for loop", `loop x from 'yes' to 'no' by 'idk' end` , /Initial value must be a number/],
+  ["improper function calls", `
+  function average of x and y is
+    sum is x+y
+    out sum/2
+  end
+  avg is call average with yasd as 2 and xasdasd as 4`, /Arguments of function call must match that of the function/],
 ];
 
 

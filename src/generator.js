@@ -43,50 +43,62 @@ export default function generate(program) {
       p.blocks.forEach(block => gen(block))
     },
     Block(b){
-      console.log(b)
       gen(b.statements)
     },
     Class(c){
-      output.push(`Class ${gen(c.id)}{ constructor(${gen(c.fields).join(", ")}){`)
-      c.fields.forEach(field => output.push(`this.${field.id} = ${field.id}}`))
-      c.fields.forEach(field=> output.push(`get_${field.id}() { return this.${field.id}}`))
-      gen(c.methods)
+      output.push(`class ${gen(c.id)} {\nconstructor(${c.fields.length === 0 ? "" : gen(c.fields[0])}) {`)
+      if (c.fields.length !== 0){
+        c.fields[0].fields.forEach(field => output.push(`this.${field.id} = ${field.id}`))
+        output.push("}")
+        c.fields[0].fields.forEach(field=> output.push(`get_${field.id}() { return this.${field.id} }`))
+      }
+      else { output.push("}") }
+      c.methods.forEach(method => gen(method))
       output.push("}")
     },
     Field(f) {
-      return targetName(f)
+      const fieldIDS = []
+      f.fields.forEach(f => fieldIDS.push(f.id))
+      return (`${fieldIDS.join(", ")}`)
     },
     Method(m) {
-      output.push(`${gen(m.id)}(${gen(d.params).join(", ")}) {`)
-      gen(d.block)
+      output.push(`${gen(m.id)}(${m.params.length === 0 ? "" : gen(m.params[0]) }) {`)
+      m.block.forEach(b => gen(b))
       output.push("}")
     },
     ClassAttr(c) {
-      if (c.params.length > 0){
-        output.push(`${c.source.id}.${c.method}(${c.params.join(", ")})`)
+      if (c.params?.id.length > 0){
+        const args = []
+        c.params.Exp.forEach(e => args.push(e.id))
+        return (`${c.source.id}.${c.method.id}(${args.join(", ")})`)
       }
       else{
-        output.push(`${c.source.id}.get_${c.method}()`)
+        return (`${c.source.id}.get_${gen(c.method)}()`)
       }
     },
     Function(d) {
-      output.push(`function ${gen(d.id)}(${gen(d.params).join(", ")}) {`)
-      gen(d.block)
+      //${d.params.length === 0 ? "" : d.params[0].factors.forEach(f => `${gen(f)}`) }
+      output.push(`function ${gen(d.id)}(${d.params.length === 0 ? "" : gen(d.params[0]) }) {`)
+      d.block.forEach(b => gen(b))
       output.push("}")
     },
     Params(p) { 
-      return targetName(p)
+      //console.log(p.factors.forEach(f => output.push(gen(f))).join(", "))
+      const ids = []
+      p.factors.forEach(f => ids.push(f.id))
+      return (`${ids.join(", ")}`)
     },
-    WhileStatement(s) {
-      output.push(`while (${gen(s.condition)}) {`)
-      gen(s.block)
+    While(s) {
+      output.push(`while (!(${gen(s.condition)})) {`)
+      s.block.forEach(b => gen(b))
       output.push("}")
     },
     For(s) {
-      const i = targetName(s.iterator)
-      const op = (s.increment > 0) ? `<=` : `>=`
-      output.push(`for (let ${i} = ${s.initial}; ${i} ${op} ${gen(s.final)}; ${i} = ${i} + ${increment}) {`)
-      gen(s.block)
+      //const i = targetName(s.id.target.id)
+      const i = s.id.target.id
+      const op = (s.increment.id > 0) ? `<=` : `>=`
+      output.push(`for (let ${i} = ${s.initial.id}; ${i} ${op} ${(s.final.id)}; ${i} = ${i} + ${s.increment.id}) {`)
+      s.block.forEach(b => gen(b))
       output.push("}")
     },
     If(s) {
@@ -97,7 +109,6 @@ export default function generate(program) {
         s.elifstatement.forEach(statement => gen(statement))
       }
       if (s.elsestatement.length > 0) {
-        console.log(s.elsestatement)
         s.elsestatement.forEach(statement => gen(statement))
       }
     },
@@ -113,29 +124,41 @@ export default function generate(program) {
       output.push(`}`)
     },
     Assign(a) {
-      output.push(`let ${a.target} = ${a.source}`)
+      console.log(a)
+      if (a.target.constructor.name === `ClassAttr`) {
+        output.push(`${a.target.source.id}.${a.target.method.id} = ${gen(a.source)}`)
+      }
+      else {
+        output.push(`let ${gen(a.target)} = ${gen(a.source)}`)
+      }
     },
     Print(p) {
       //output.push(`console.log(${JSON.stringify(p.argument.id)})`)
-      output.push(`console.log(${p.argument.id})`)
+      output.push(`console.log(${gen(p.argument)})`)
     },
     ClassCall(c) {
-      output.push(`new ${c.id}(${gen(d.args).join(", ")})`)
+      return (`new ${c.id.id}(${gen(c.args[0])})`)
     },
     FuncCall(f) {
-      outpush.push(`${f.id}(${gen(args).join(", ")})`)
+      return (`${f.id.id}(${gen(f.args[0])})`)
     },
     Args(a) {
-      a.forEach(arg => output.push(arg.Exp))
+      const exps = []
+      a.Exp.forEach(e => exps.push(e.id))
+      return (`${exps.join(", ")}`)
+      //a.Exp.forEach(arg => output.push(arg.id))
     },
     Return(r) {
-      output.push(`return ${gen(r.value)}`)
+      output.push(`return ${gen(r.value[0])}`)
     },
+    /*
+      Note: due to the fact that e.left and e.right can be their own binary / identifier expressions in our language
+      the format of a binary expression is: ((e.left) op (e.right)) ie. ((x+1) > (y+1))
+      when used in if statements and loops the code is generated with an excess of parenthesis just to be safe 
+    */
     BinaryExp(e) {
-
       const op = { "==": "===", "!=": "!==" }[e.op] ?? e.op
-
-      return `${gen(e.left)} ${op} ${gen(e.right)}`
+      return `((${gen(e.left)}) ${op} (${gen(e.right)}))`
       //return( `(${e.left.id} ${op} ${e.right.id})`)
     },
     IdentifierExpression(e) {

@@ -22,7 +22,7 @@ quotecodequote {
   If        = if Condition Block* kwend Elif* Else? 
   Elif      = elif Condition Block* kwend
   Else      = else Block* kwend
-  Assign    = Var is (Condition | ClassCall)
+  Assign    = Factor is (Condition | ClassCall)
   Print     = output Condition
   ClassCall = new id Args? 
   ClassAttr = id colon id Args?                                                          

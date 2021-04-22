@@ -125,8 +125,9 @@ class Context {
   If(s) {
     if (s.condition) {
       this.analyze(s.block);
-      if (s.elifstatement.length > 0){
-        this.analyze(s.elifstatement[0].block);
+      if (s.elifstatement.length > 0) {
+        s.elifstatement.forEach(statement=>this.analyze(statement.block))
+        //this.analyze(s.elifstatement[0].block);
       }
       if (s.elsestatement.length > 0) {
         this.analyze(s.elsestatement[0].block.block);

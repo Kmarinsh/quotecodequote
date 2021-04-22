@@ -25,14 +25,14 @@ export default function generate(program) {
   // etc. This is because "switch", for example, is a legal name in Carlos,
   // but not in JS. So, the Carlos variable "switch" must become something
   // like "switch_1". We handle this by mapping each name to its suffix.
-  const targetName = (mapping => {
-    return entity => {
-      if (!mapping.has(entity)) {
-        mapping.set(entity, mapping.size + 1)
-      }
-      return `${entity.name ?? entity.description}_${mapping.get(entity)}`
-    }
-  })(new Map())
+  // const targetName = (mapping => {
+  //   return entity => {
+  //     if (!mapping.has(entity)) {
+  //       mapping.set(entity, mapping.size + 1)
+  //     }
+  //     return `${entity.name ?? entity.description}_${mapping.get(entity)}`
+  //   }
+  // })(new Map())
 
 
   const gen = node => generators[node.constructor.name](node)

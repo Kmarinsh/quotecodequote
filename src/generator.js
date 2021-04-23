@@ -124,7 +124,6 @@ export default function generate(program) {
       output.push(`}`)
     },
     Assign(a) {
-      console.log(a)
       if (a.target.constructor.name === `ClassAttr`) {
         output.push(`${a.target.source.id}.${a.target.method.id} = ${gen(a.source)}`)
       }

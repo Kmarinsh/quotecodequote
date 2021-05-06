@@ -34,8 +34,8 @@ export default function generate(program) {
   //   }
   // })(new Map())
 
-
   const gen = node => generators[node.constructor.name](node)
+
   const generators = {
     // Key idea: when generating an expression, just return the JS string; when
     // generating a statement, write lines of translated JS to the output array.

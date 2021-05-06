@@ -149,18 +149,6 @@ const optimizers = {
                 return s
             }
         }
-        // if (s.elifstatement !== null) {
-        //     s.elifstatement = optimize(s.elifstatement)
-        // }
-        // if (s.elsestatement !== null) {
-        //     s.elsestatement = optimize(s.elsestatement)
-        // }
-        // s.blocks = optimize(s.block)
-        // s.elifstatement = optimize(s.elifstatement)
-        // s.elsestatement = optimize(s.elsestatement)
-        // if (s.test.constructor === Boolean) {
-        //   return s.test ? s.consequent : s.alternate
-        // }
         return s
     },
     Elif(s) {
@@ -279,16 +267,4 @@ const optimizers = {
         }
         return e
     }
-    // UnaryExpression(e) {
-    //   e.operand = optimize(e.operand)
-    //   if (e.operand.constructor === Number) {
-    //     if (e.op === "-") {
-    //       return -e.operand
-    //     }
-    //   }
-    //   return e
-    // },
-    
-    
-    
   }

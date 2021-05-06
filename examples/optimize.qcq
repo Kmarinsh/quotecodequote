@@ -1,5 +1,4 @@
 function average of x and y is
-	sum is x+y
-	out sum/2
-	output 2+3
+	out x
+    out y
  end

@@ -159,6 +159,7 @@ class Context {
 }
 
 export default function analyze(node) {
-  new Context().analyze(node);
+  const initialContext = new Context()
+  initialContext.analyze(node);
   return node;
 }

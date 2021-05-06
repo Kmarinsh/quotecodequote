@@ -3,6 +3,7 @@
 import fs from "fs/promises"
 import process from "process"
 import compile from "./compiler.js"
+import generate from "./generator"
 
 const help = `qcq compiler
 Syntax: src/qcq.js <filename> <outputType>
@@ -11,9 +12,10 @@ Prints to stdout according to <outputType>, which must be one of:
   (WIP) analyzed   the semantically analyzed representation
   (WIP) optimized  the optimized semantically analyzed representation
   (WIP) js         the translation to JavaScript
-  (WIP) c          the translation to C
-  (WIP) llvm       the translation to LLVM
+  (WIP) generated  the generated js representation
 `
+
+
 
 async function compileFromFile(filename, outputType) {
   try {

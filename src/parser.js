@@ -24,7 +24,7 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
     return new ast.Method(name.ast(), params.ast(), body.ast());
   },
   ClassAttr(source, _colon, method, params) {
-    return new ast.ClassAttr(source.ast(),method.ast(),...params.ast())
+    return new ast.ClassAttr(source.ast(), method.ast(), ...params.ast());
   },
   Function(_func, name, params, _is, block, _end) {
     return new ast.Function(name.ast(), params.ast(), block.ast());
@@ -108,7 +108,7 @@ const astBuilder = qcqGrammar.createSemantics().addOperation("ast", {
     return new ast.IdentifierExpression(this.sourceString);
   },
   number(negative, id, _point, decimal) {
-    return new ast.IdentifierExpression(this.sourceString);
+    return Number(this.sourceString);
   },
 });
 

@@ -12,8 +12,8 @@ quotecodequote {
             | FuncCall
             | Return
             | Condition 
-  Class     = class id Field? Method* kwend
-  Field     = has id (and id)* 
+  Class     = class id Field Method* kwend
+  Field    = has id (and id)* 
   Method    = id Params? is Block* kwend
   Function  = function id Params? is Block+  kwend
   Params    = of Factor (and Factor)*
